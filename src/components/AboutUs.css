@@ -1,0 +1,61 @@
+/* src/components/AboutUs.css */
+.about-us {
+  background-color: #673EE4;
+  padding: 60px 0;
+  color: white;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.about-content h2 {
+  font-size: 30px;
+  font-weight: 600;       /* Slightly lighter weight */
+  line-height: 1.1;       /* Adds airy spacing between lines */
+  color: white;
+  text-align: left;
+  width: 110%;            /* Let it take full width of its column */
+}
+.about-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.about-illustration img {
+  max-width: 100%;
+  height: auto;
+}
+
+.about-content {
+  flex: 1;
+}
+
+
+
+@media (max-width: 992px) {
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-illustration {
+    margin-bottom: 30px;
+  }
+
+  .about-content h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-content h2 {
+    font-size: 24px;
+  }
+}

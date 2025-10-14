@@ -1,0 +1,53 @@
+/* Pre-requisites Section Styles */
+.pre-requisites-container {
+  background-color: #f4f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pre-requisites-content {
+  width: 100%;
+  background-color: white;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+.pre-requisites-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  text-decoration: underline;
+}
+
+.pre-requisites-list {
+  padding-left: 30px;
+}
+
+.pre-requisites-list li {
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pre-requisites-content {
+    padding: 20px;
+    margin: 0 10px;
+  }
+
+  .pre-requisites-title {
+    font-size: 20px;
+  }
+
+  .pre-requisites-list {
+    padding-left: 20px;
+  }
+
+  .pre-requisites-list li {
+    font-size: 14px;
+  }
+}

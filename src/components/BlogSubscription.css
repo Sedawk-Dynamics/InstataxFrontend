@@ -1,0 +1,161 @@
+/* src/components/BlogSubscription.css */
+.blog-subscription {
+  /* background: linear-gradient(135deg, #7e57ff 0%, #9b6dff 100%); */
+  background-color: #673EE4;
+  padding: 60px 20px;
+  color: white;
+  position: relative;
+}
+
+.subscription-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.subscription-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.subscription-illustration img {
+  max-width: 100%;
+  height: auto;
+}
+
+.subscription-form {
+  flex: 1;
+  max-width: 450px;
+}
+
+.form-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.name-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.prefix-group {
+  flex: 1;
+}
+
+.fullname-group {
+  flex: 2;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e8e8e8;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7e57ff;
+  background-color: #fff;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: #e8e8e8;
+  border-radius: 12px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch.active {
+  background-color: #7e57ff;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.active .toggle-button {
+  transform: translateX(20px);
+}
+
+.toggle-group label {
+  font-size: 14px;
+  color: #555;
+}
+
+.subscribe-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #7e57ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.subscribe-button:hover {
+  background-color: #6a46e5;
+}
+
+@media (max-width: 992px) {
+  .subscription-container {
+    flex-direction: column;
+  }
+
+  .subscription-illustration {
+    margin-bottom: 30px;
+  }
+
+  .subscription-form {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .name-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

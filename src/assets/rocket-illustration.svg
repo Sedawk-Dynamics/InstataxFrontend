@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+    <!-- Background wave -->
+    <path d="M0,400 Q200,350 400,400 T800,380 L800,500 L0,500 Z" fill="#7e57ff" opacity="0.7" />
+
+    <!-- Dotted lines -->
+    <path d="M100,150 C300,100 450,200 700,100" stroke="#7e57ff" stroke-width="2"
+        stroke-dasharray="5,5" fill="none" opacity="0.7" />
+    <path d="M150,300 C250,250 400,280 600,250" stroke="#7e57ff" stroke-width="2"
+        stroke-dasharray="5,5" fill="none" opacity="0.7" />
+
+    <!-- Paper plane -->
+    <path d="M700,100 L725,125 L710,120 Z" fill="#ffffff" stroke="#7e57ff" stroke-width="1" />
+
+    <!-- Light bulb icon -->
+    <g transform="translate(740, 150)">
+        <circle cx="0" cy="0" r="20" fill="#ffcc00" />
+        <path d="M-10,-5 C-10,-15 10,-15 10,-5 L10,5 L-10,5 Z" fill="#ffcc00" />
+        <rect x="-5" y="5" width="10" height="5" rx="2" ry="2" fill="#ffcc00" />
+    </g>
+
+    <!-- Rocket/spaceship -->
+    <g transform="translate(400, 250)">
+        <!-- Rocket body -->
+        <path d="M-20,50 L-20,-50 L0,-80 L20,-50 L20,50 Z" fill="#ffffff" stroke="#333333"
+            stroke-width="2" />
+
+        <!-- Window -->
+        <circle cx="0" cy="-30" r="10" fill="#7e57ff" />
+
+        <!-- Fins -->
+        <path d="M-20,30 L-50,60 L-20,60 Z" fill="#ff6b6b" stroke="#333333" stroke-width="1" />
+        <path d="M20,30 L50,60 L20,60 Z" fill="#ff6b6b" stroke="#333333" stroke-width="1" />
+
+        <!-- Bottom flame -->
+        <path d="M-15,50 L0,80 L15,50 Z" fill="#ffcc00" />
+    </g>
+
+    <!-- Person 1 (in purple) -->
+    <g transform="translate(250, 380)">
+        <!-- Body -->
+        <path d="M-20,-80 L-25,0 L25,0 L20,-80 Z" fill="#c13bff" />
+
+        <!-- Head -->
+        <circle cx="0" cy="-95" r="18" fill="#ffd2a5" />
+
+        <!-- Hair -->
+        <path d="M-15,-105 C-20,-120 20,-120 15,-105 L15,-90 L-15,-90 Z" fill="#333333" />
+
+        <!-- Arms -->
+        <rect x="-40" y="-60" width="20" height="60" rx="5" ry="5" fill="#c13bff" />
+        <rect x="20" y="-60" width="20" height="60" rx="5" ry="5" fill="#c13bff" />
+
+        <!-- Document in hands -->
+        <rect x="-35" y="-30" width="25" height="35" rx="2" ry="2" fill="#ffffff" stroke="#7e57ff"
+            stroke-width="1" />
+
+        <!-- Legs -->
+        <rect x="-15" y="0" width="10" height="50" rx="5" ry="5" fill="#6e441b" />
+        <rect x="5" y="0" width="10" height="50" rx="5" ry="5" fill="#6e441b" />
+
+        <!-- Shoes -->
+        <rect x="-20" y="50" width="20" height="10" rx="5" ry="5" fill="#ffcc00" />
+        <rect x="0" y="50" width="20" height="10" rx="5" ry="5" fill="#ffcc00" />
+    </g>
+
+    <!-- Person 2 (in yellow) -->
+    <g transform="translate(530, 380)">
+        <!-- Body -->
+        <path d="M-20,-80 L-25,0 L25,0 L20,-80 Z" fill="#ffcc00" />
+
+        <!-- Head -->
+        <circle cx="0" cy="-95" r="18" fill="#ffd2a5" />
+
+        <!-- Hair -->
+        <path d="M-15,-105 C-20,-120 20,-120 15,-105 L15,-90 L-15,-90 Z" fill="#333333" />
+
+        <!-- Arms -->
+        <rect x="-40" y="-60" width="20" height="60" rx="5" ry="5" fill="#ffcc00" />
+        <rect x="20" y="-60" width="20" height="60" rx="5" ry="5" fill="#ffcc00" />
+
+        <!-- Circle in hands -->
+        <circle cx="40" cy="-35" r="20" fill="#ff6b6b" stroke="#7e57ff" stroke-width="2" />
+        <circle cx="40" cy="-35" r="15" fill="#17a2ff" />
+
+        <!-- Legs -->
+        <rect x="-15" y="0" width="10" height="50" rx="5" ry="5" fill="#333333" />
+        <rect x="5" y="0" width="10" height="50" rx="5" ry="5" fill="#333333" />
+
+        <!-- Shoes -->
+        <rect x="-20" y="50" width="20" height="10" rx="5" ry="5" fill="#ffcc00" />
+        <rect x="0" y="50" width="20" height="10" rx="5" ry="5" fill="#ffcc00" />
+    </g>
+</svg>

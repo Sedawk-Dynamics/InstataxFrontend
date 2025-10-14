@@ -1,0 +1,187 @@
+/* src/pages/ServiceList.css */
+.services-page {
+  min-height: calc(100vh - 70px);
+  background-color: #f9fafc;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main container */
+.services-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap; /* Ensures wrapping when needed */
+  align-items: flex-start;
+  gap: 50px;
+}
+
+/* Service list container */
+.services-list {
+  flex: 1;
+  max-width: 100%;
+  width: 100%;
+  text-align: center; /* Centers content */
+}
+
+.services-list h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Individual service cards */
+.service-card {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  flex-wrap: wrap; /* Ensures proper wrapping on small screens */
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Service info section */
+.service-info {
+  flex: 1;
+  text-align: left;
+}
+
+.service-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.service-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.service-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Arrow button */
+.service-arrow {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #7e57ff;
+}
+
+.service-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Service illustration (Image container) */
+.services-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.services-illustration img {
+  width: 100%;
+  max-width: 600px; /* Ensures image doesn't get too big */
+  height: auto;
+  transform: scale(1); /* Resets excessive scaling */
+  object-fit: contain; /* Prevents image distortion */
+  margin-bottom: 10%;
+}
+
+/* 🔹 Tablet View (992px and below) */
+@media (max-width: 992px) {
+  .services-container {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    text-align: center;
+  }
+
+  .services-list {
+    width: 85%;
+    max-width: 600px;
+  }
+
+  .services-illustration {
+    order: 2; /* Keeps the image below */
+    margin-top: 20px; /* Adds better spacing */
+  }
+
+  .services-illustration img {
+    max-width: 75%; /* Keeps image size balanced */
+  }
+}
+
+/* 🔹 Mobile View (768px and below) */
+@media (max-width: 768px) {
+  .services-list {
+    width: 90%;
+    max-width: 450px;
+  }
+
+  .service-card {
+    flex-direction: column; /* Stacks text and arrow */
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .service-info {
+    text-align: center;
+  }
+
+  .services-illustration img {
+    max-width: 80%; /* Slightly larger for visibility */
+    min-width: 400px; /* Prevents excessive shrinking */
+  }
+}
+
+/* 🔹 Ultra-Small Screens (480px and below) */
+@media (max-width: 480px) {
+  .services-list {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .service-card {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .services-illustration img {
+    max-width: 80%;
+    min-width: 350px; /* Prevents excessive shrinking */
+  }
+}
+
+/* 🔹 Extra-Small Screens (320px and below) */
+@media (max-width: 320px) {
+  .services-list {
+    max-width: 300px;
+  }
+
+  .services-illustration img {
+    max-width: 90%;
+  }
+}

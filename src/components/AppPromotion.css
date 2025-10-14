@@ -1,0 +1,149 @@
+/* src/components/AppPromotion.css */
+.app-promotion {
+  position: relative;
+  overflow: visible;
+  padding: 120px 0;
+  background-color: #fff;
+  width: 100%;
+}
+
+.app-promotion-container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  /* overflow: visible; */
+}
+
+.app-promotion-content {
+  flex: 0 0 40%;
+  z-index: 2;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align all content */
+  text-align: center; /* Ensure text is centered */
+}
+
+.app-promotion-content h2 {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.4;
+  margin-bottom:12px;
+  color: #000;
+   text-align: left; /* Ensure left alignment */
+  max-width: 500px; /* Constrain width to match image */
+  padding-left: 20px;
+}
+
+.app-ranking {
+  margin-top: 20px;
+}
+
+.app-ranking p {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.app-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 200px;
+  align-items: center;
+}
+
+.store-badge img {
+  max-width: 80%;
+  height: auto;
+  
+}
+
+.app-illustration {
+  flex: 0 0 55%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+   margin-right: 0;
+}
+
+.app-illustration img {
+  max-width: fit-content;
+  /* width: auto; */
+  height: 600px;
+  display: block;
+    object-fit: contain;
+   object-position: right center;
+}
+@media (min-width: 1200px) {
+  .app-promotion-container {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .app-illustration {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 85%;
+    max-width: none;
+  }
+  
+  .app-illustration img {
+    height: 600px;
+    max-width: fit-content;
+    width: auto;
+  }
+}
+@media (max-width: 992px) {
+  .app-promotion-container {
+    flex-direction: column;
+      padding: 0 20px;
+  }
+
+  .app-promotion-content {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+    padding-right: 0;
+  }
+
+  .app-badges {
+    margin: 0 auto;
+    width: 100%;
+    align-items: center;
+  }
+
+  .app-illustration {
+    flex: 0 0 100%;
+    justify-content: center;
+    width: 125%;
+    margin-right: 0;
+  }
+  
+  .app-illustration img {
+    max-width:100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-promotion-content h2 {
+    font-size: 36px;
+  }
+
+  .app-ranking p {
+    font-size: 18px;
+  }
+  
+  /* .app-illustration img {
+    max-width: 100%;
+  } */
+}

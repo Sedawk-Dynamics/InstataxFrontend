@@ -1,0 +1,395 @@
+/* src/components/Hero.css */
+/* .hero {
+  background-color: #673ee4;
+  color: white;
+  padding: 0;
+  overflow: hidden;
+  background-image: url("../assets/heroimage110.png"); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+} */
+.hero {
+  background-color: #673ee4;
+  color: white;
+  padding: 0;
+  overflow: hidden;
+  background-image: url("../assets/heroimage110.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* flex-direction: row; */
+}
+/* Semi-transparent overlay for better readability */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+/* .hero-container {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  width: 28%;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 2;
+} */
+.hero-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 40%;
+  /* max-width: 500px; */
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+  margin-right: 1%;
+}
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+  margin-left: 5px;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.2; /* Keep lines close */
+  margin-bottom: 30px;
+}
+.hero-subtext {
+  font-size: 1rem;
+  margin-top: 35px; /* Small space below title */
+}
+.hero-points {
+  margin-top: 10px; /* Space below subtext */
+  margin-left: 10px; /* Slightly more left than the title */
+  line-height: 2;
+}
+
+.hero-points p {
+  margin: 3px 0;
+}
+*/ .hero-image {
+  /* grid-column: span 1; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 380px;
+}
+
+/* .quote-form {
+  background-color: #673ee4;
+  padding: 1.5rem 1rem;
+ border-radius: 30px !important;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden; 
+  border: 2px solid white; 
+} */
+.quote-form {
+  background-color: #673ee4;
+  padding: 1.5rem 1.5rem;
+  border-radius: 30px !important;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  border: 2px solid white;
+}
+.form-inner-padding {
+  padding: 0 10px;
+}
+.quote-form form input,
+.quote-form form select {
+  border-radius: 20px;
+  border: none;
+  padding: 10px 25px;
+  font-size: 0.9rem;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.397);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.quote-form h2 {
+ font-size: 18px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+}
+
+.quote-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+}
+
+
+.quote-form input:focus {
+  border-color: #6c46d6;
+  outline: none;
+}
+
+.form-row {
+  display: flex;
+ gap: 10px;
+  
+}
+
+.prefix-input {
+  width: 30%;
+}
+
+.fullname-input {
+  width: 70%;
+}
+
+.form-toggle {
+  display: flex;
+  align-items: center;
+    align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+   color: white;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #6c46d6;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+   border-radius: 50%;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.quote-btn {
+  background-color: #673EE4;
+  color: white;
+  padding: 16px 0;
+  border-radius: 20px;
+  border: none;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.quote-btn:hover {
+  background-color: #5b3cb9;
+}
+
+/* Style for select elements (dropdowns) */
+.quote-form select {
+  padding: 18px 25px;
+  /* border: 1px solid #e0e0e0; */
+  border-radius: 25px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.3s;
+  margin: 5px 0;
+  appearance: none; /* Remove default arrow in some browsers */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.quote-form select:focus {
+  border-color: #6c46d6;
+}
+
+.quote-form select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Form message styling */
+.form-message {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+}
+
+.form-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ===== MEDIA QUERIES FOR THE THREE KEY SCREEN SIZES ===== */
+
+/* 1. Mac/Large Desktop Screens */
+@media (min-width: 1440px) {
+  .hero {
+    background-position: 30% center; /* Adjusted position for large screens */
+    background-size: cover;
+  }
+  
+  .hero-container {
+    width: 35%;
+    max-width: 500px;
+    margin-right: 1%;
+    padding: 40px;
+  }
+  
+  .quote-form {
+    max-width: 450px;
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* 2. Default Laptop Screens */
+@media (min-width: 768px) and (max-width: 1439px) {
+  .hero {
+    background-position: 35% center;
+  }
+  
+  .hero-container {
+    width: 45%;
+    margin-right: 0.5%;
+    padding: 30px;
+  }
+  
+  .quote-form {
+    max-width: 380px;
+  }
+}
+
+/* 3. Mobile Screens */
+@media (max-width: 767px) {
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+    padding: 30px 0;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero::before {
+    background-color: rgba(0, 0, 0, 0.5); /* Darker overlay for mobile */
+  }
+  
+  .hero-container {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px 10px;
+    margin-right: 0;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .quote-form {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 350px;
+    margin: 20px auto;
+    padding: 1.2rem 1rem;
+  }
+  
+  .quote-form h2 {
+    font-size: 16px;
+  }
+  
+  .quote-form form input,
+  .quote-form form select {
+    padding: 12px 15px;
+    font-size: 14px;
+    height: 38px;
+  }
+  
+  .form-row {
+    gap: 8px;
+  }
+  
+  .quote-btn {
+    padding: 12px 0;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+}
