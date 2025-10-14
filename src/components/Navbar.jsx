@@ -51,7 +51,7 @@ const Navbar = () => {
   // Function to handle blog navigation
   const handleBlogClick = (e) => {
     e.preventDefault();
-    window.location.href = "https://blogs.instatax.ai/";
+    navigate("/blogs");
   };
 
   // Fetch categories from API
@@ -298,14 +298,14 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Changed from target="_blank" to regular link */}
-          <a
-            href="https://blogs.instatax.ai/"
-            onClick={handleBlogClick}
+          {/* Blog link using React Router */}
+          <Link
+            to="/blogs"
+            onClick={() => setMenuOpen(false)}
             className={location.pathname === "/blogs" ? "active" : ""}
           >
             Blog
-          </a>
+          </Link>
 
           <Link
             to="/about-us"
@@ -384,18 +384,14 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Changed to use <a> with onClick handler in mobile menu too */}
-        <a
-          href="https://blogs.instatax.ai/"
-          onClick={(e) => {
-            e.preventDefault();
-            window.location.href = "https://blogs.instatax.ai/";
-            setMenuOpen(false);
-          }}
+        {/* Blog link in mobile menu */}
+        <Link
+          to="/blogs"
+          onClick={() => setMenuOpen(false)}
           className={location.pathname === "/blogs" ? "active" : ""}
         >
           Blog
-        </a>
+        </Link>
 
         <Link
           to="/about-us"

@@ -167,9 +167,6 @@ const handleLogin = async (e) => {
     setIsLoading(false);
     onClose();
 
-    // Notify success
-    alert(`Welcome back, ${data.user.name || data.user.username}!`);
-
     // Trigger success callback
     if (onVerifySuccess) {
       onVerifySuccess();
@@ -230,7 +227,6 @@ const handleSignup = async (e) => {
     localStorage.setItem("user", JSON.stringify(data.user));
     setIsLoading(false);
     onClose();
-    alert("Account created successfully!");
 
     if (onVerifySuccess) onVerifySuccess();
     window.location.reload();

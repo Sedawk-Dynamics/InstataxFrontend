@@ -24,69 +24,11 @@ const ChatWidget = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const faqItems = [
-    {
-      question: "How do I reset my password?",
-      answer:
-        "Go to settings and click on 'Reset Password'. You'll receive an email with instructions to set a new password.",
-      icon: "🔑",
-    },
-    {
-      question: "What are your support hours?",
-      answer:
-        "Our support team is available 24/7 to assist you with any questions or concerns you may have.",
-      icon: "🕒",
-    },
-    {
-      question: "How do I upgrade my plan?",
-      answer:
-        "Visit the billing section in your account to upgrade. You'll see various options that suit your needs.",
-      icon: "⭐",
-    },
-    {
-      question: "Can I cancel my subscription?",
-      answer:
-        "Yes, you can cancel your subscription anytime from your account settings without any cancellation fee.",
-      icon: "📝",
-    },
-    {
-      question: "How do I contact customer support?",
-      answer:
-        "You can reach our customer support team via this chat, email at support@example.com, or call us at 1-800-123-4567.",
-      icon: "📞",
-    },
-  ];
+  // TODO: Load FAQ items from backend/CMS
+  const faqItems = [];
 
-  const newsItems = [
-    {
-      title: "New Feature Released",
-      summary:
-        "We just launched a new feature for better experience. Try out our new dashboard analytics tools!",
-      date: "March 22, 2025",
-      image: "feature-update",
-    },
-    {
-      title: "System Maintenance",
-      summary:
-        "Scheduled maintenance on March 30 from 1 AM - 3 AM UTC. Services may be intermittently unavailable.",
-      date: "March 20, 2025",
-      image: "maintenance",
-    },
-    {
-      title: "Mobile App Update",
-      summary:
-        "Version 2.5 of our mobile app is now available with improved performance and new features.",
-      date: "March 15, 2025",
-      image: "mobile-update",
-    },
-    {
-      title: "Holiday Support Hours",
-      summary:
-        "Our support team will be operating with limited capacity during the upcoming holiday weekend.",
-      date: "March 10, 2025",
-      image: "support-hours",
-    },
-  ];
+  // TODO: Load news items from backend/CMS
+  const newsItems = [];
 
   // Scroll to bottom whenever messages change
   useEffect(() => {
@@ -97,7 +39,7 @@ const ChatWidget = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!message.trim()) return;
 
     const newMessages = [
@@ -113,18 +55,10 @@ const ChatWidget = () => {
     setMessage("");
     setIsTyping(true);
 
-    // Simulated bot response
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages([
-        ...newMessages,
-        {
-          text: "Thanks for reaching out! We'll assist you shortly.",
-          sender: "bot",
-          timestamp: new Date(),
-        },
-      ]);
-    }, 1500);
+    // TODO: Implement actual chat API integration
+    // const response = await chatApi.sendMessage(message);
+    // setMessages([...newMessages, { text: response.text, sender: "bot", timestamp: new Date() }]);
+    setIsTyping(false);
   };
 
   const formatTime = (date) => {

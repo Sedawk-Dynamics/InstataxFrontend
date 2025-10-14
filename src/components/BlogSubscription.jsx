@@ -10,16 +10,10 @@ const BlogSubscription = () => {
   const [prefix, setPrefix] = useState("");
   const [whatsappUpdates, setWhatsappUpdates] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Subscription data:", {
-      prefix,
-      fullName,
-      email,
-      whatsappUpdates,
-    });
-    // Here you would typically send this data to your backend
-    alert("Subscription successful!");
+    // TODO: Implement actual API call to backend
+    // await subscriptionApi.subscribe({ prefix, fullName, email, whatsappUpdates });
     setEmail("");
     setFullName("");
     setPrefix("");
@@ -71,15 +65,6 @@ const BlogSubscription = () => {
                 />
               </div>
 
-              <div className="toggle-group">
-                <div
-                  className={`toggle-switch ${whatsappUpdates ? "active" : ""}`}
-                  onClick={() => setWhatsappUpdates(!whatsappUpdates)}
-                >
-                  <div className="toggle-button"></div>
-                </div>
-                <label>Get updates through Whatsapp</label>
-              </div>
 
               <button type="submit" className="subscribe-button">
                 Subscribe Now
