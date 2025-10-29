@@ -31,7 +31,6 @@ const ServiceList = ({ categoryId }) => {
         // Try each endpoint until one works
         for (const endpoint of endpoints) {
           try {
-            console.log(`Trying endpoint: ${baseUrl}${endpoint}`);
             const tempResponse = await fetch(`${baseUrl}${endpoint}`, {
               headers: {
                 Accept: "application/json",
@@ -45,7 +44,7 @@ const ServiceList = ({ categoryId }) => {
               break;
             }
           } catch (endpointErr) {
-            console.log(`Endpoint ${endpoint} failed:`, endpointErr.message);
+            // Silently continue to next endpoint
           }
         }
 
@@ -56,9 +55,7 @@ const ServiceList = ({ categoryId }) => {
           return;
         }
 
-        console.log(`Successful endpoint: ${baseUrl}${successEndpoint}`);
         const data = await response.json();
-        console.log("Categories API Response:", data);
 
         if (data?.data?.length) {
           setCategories(data.data);
@@ -71,11 +68,8 @@ const ServiceList = ({ categoryId }) => {
             );
 
             if (matchedCategory) {
-              console.log("Matched category:", matchedCategory);
               setCurrentCategory(matchedCategory);
               setSelectedCategory(matchedCategory.id.toString());
-            } else {
-              console.warn(`No category found matching: ${categoryId}`);
             }
           }
         }
@@ -118,7 +112,6 @@ const ServiceList = ({ categoryId }) => {
         // Try each endpoint until one works
         for (const endpoint of endpoints) {
           try {
-            console.log(`Trying services endpoint: ${baseUrl}${endpoint}`);
             const tempResponse = await fetch(`${baseUrl}${endpoint}`, {
               headers: {
                 Accept: "application/json",
@@ -134,7 +127,7 @@ const ServiceList = ({ categoryId }) => {
               break;
             }
           } catch (endpointErr) {
-            console.log(`Endpoint ${endpoint} failed:`, endpointErr.message);
+            // Silently continue to next endpoint
           }
         }
 
@@ -142,23 +135,16 @@ const ServiceList = ({ categoryId }) => {
         if (!response) {
           // If we have a current category with services, use that instead
           if (currentCategory && currentCategory.services?.length > 0) {
-            console.log(
-              "Using services from current category:",
-              currentCategory.services
-            );
             setServices(currentCategory.services);
             setLoading(false);
             return;
           }
-
-          console.error("All service endpoints failed");
           setError("Failed to load services");
           setLoading(false);
           return;
         }
 
         const data = await response.json();
-        console.log("Services API Response:", data);
 
         if (isNestedResponse && data?.data?.attributes?.services?.data) {
           // Handle nested response format (category with services)

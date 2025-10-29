@@ -7,24 +7,19 @@ const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 class GhostApiService {
   constructor() {
     if (import.meta.env.DEV) {
-      // Development: use vite proxy
       this.baseUrl = '/api';
     } else {
-      // Production: prioritize direct Ghost API access if URL is public
       if (GHOST_CONTENT_BASE) {
-        // Use explicit full URL if provided
         const normalizedContentBase = GHOST_CONTENT_BASE
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = normalizedContentBase;
       } else if (GHOST_API_URL) {
-        // Construct from Ghost API URL (e.g., https://blogs.instatax.ai)
         const normalizedOrigin = GHOST_API_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
       } else {
-        // Fallback: use serverless function or proxy
         this.baseUrl = '/api/ghost';
       }
     }
@@ -32,7 +27,6 @@ class GhostApiService {
   }
 
   async fetchPosts(page = 1, limit = 6, include = 'tags,authors') {
-    // Try multiple URL patterns if first attempt fails
     const urlPatterns = this.getUrlPatterns();
     
     for (let i = 0; i < urlPatterns.length; i++) {
@@ -40,52 +34,40 @@ class GhostApiService {
         const baseUrl = urlPatterns[i];
         const url = `${baseUrl}/posts/?key=${this.apiKey}&limit=${limit}&page=${page}&include=${include}&formats=html,plaintext`;
         
-        console.log(`[Ghost API] Trying URL pattern ${i + 1}/${urlPatterns.length}: ${url}`);
-        
         const response = await fetch(url);
         
         if (response.ok) {
-          // Check if response is actually JSON (not HTML error page)
           const contentType = response.headers.get('content-type') || '';
           const text = await response.text();
           
           if (contentType.includes('application/json')) {
             try {
               const data = JSON.parse(text);
-              console.log(`[Ghost API] Success with pattern ${i + 1}: ${baseUrl}`);
-              // Update baseUrl for future requests
               this.baseUrl = baseUrl;
               return {
                 posts: data.posts || [],
                 meta: data.meta || {}
               };
             } catch (e) {
-              // Not valid JSON, try next pattern
-              console.warn(`[Ghost API] Pattern ${i + 1} returned invalid JSON, trying next...`);
               if (i === urlPatterns.length - 1) {
                 throw new Error(`Invalid JSON response from ${baseUrl}`);
               }
               continue;
             }
           } else if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-            // HTML response (404 page, etc.)
-            console.warn(`[Ghost API] Pattern ${i + 1} returned HTML (likely not deployed), trying next...`);
             if (i === urlPatterns.length - 1) {
-              throw new Error(`HTML response received (serverless function not available)`);
+              throw new Error('HTML response received (serverless function not available)');
             }
             continue;
           } else {
-            // Try to parse anyway
             try {
               const data = JSON.parse(text);
-              console.log(`[Ghost API] Success with pattern ${i + 1}: ${baseUrl}`);
               this.baseUrl = baseUrl;
               return {
                 posts: data.posts || [],
                 meta: data.meta || {}
               };
             } catch (e) {
-              console.warn(`[Ghost API] Pattern ${i + 1} returned invalid response, trying next...`);
               if (i === urlPatterns.length - 1) {
                 throw new Error(`Invalid response from ${baseUrl}`);
               }
@@ -93,86 +75,41 @@ class GhostApiService {
             }
           }
         } else {
-          console.warn(`[Ghost API] Pattern ${i + 1} returned ${response.status}, trying next...`);
           if (i === urlPatterns.length - 1) {
-            // Last pattern failed
             throw new Error(`HTTP error! status: ${response.status}`);
           }
         }
       } catch (error) {
-        // Check if response is HTML (serverless function not deployed or routing failed)
-        const isHtmlError = error.message.includes('<!DOCTYPE') || 
-                          error.message.includes('Unexpected token') ||
-                          error.message.includes('is not valid JSON');
-        
-        if (isHtmlError) {
-          console.warn(`[Ghost API] Pattern ${i + 1} returned HTML (serverless function may not be deployed), trying next...`);
-        } else {
-          console.warn(`[Ghost API] Pattern ${i + 1} failed:`, error.message);
-        }
-        
         if (i === urlPatterns.length - 1) {
-          // Last pattern, throw error with helpful message
-          console.error('[Ghost API] All URL patterns failed. Last error:', error);
-          console.error('[Ghost API] Tried patterns:', urlPatterns);
-          
-          if (isHtmlError && urlPatterns[0] === '/api/ghost') {
-            console.error(`
-[Ghost API] Serverless Function Not Deployed:
-The serverless function at /api/ghost is returning HTML (likely a 404 page).
-This means the function isn't deployed or recognized.
-
-QUICK FIX:
-1. Deploy to Vercel or Netlify (the serverless function will deploy automatically)
-2. OR: Set VITE_GHOST_CONTENT_BASE in .env with a working Ghost URL
-3. OR: Use a public Ghost API URL in VITE_GHOST_API_URL
-
-For development, the Vite proxy should handle this automatically.
-            `);
-          } else {
-            const proxyUrl = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
-            const ghostUrl = import.meta.env.VITE_GHOST_API_URL || 'not configured';
-            console.error(`
-[Ghost API] Troubleshooting Guide:
-1. Serverless Function: Deploy to Vercel/Netlify for automatic serverless function
-2. Direct Access: Set VITE_GHOST_CONTENT_BASE with a public Ghost Content API URL
-3. Backend Proxy: Configure backend at ${proxyUrl} to proxy Ghost requests
-            `);
-          }
-          throw new Error(`Failed to fetch Ghost API from all ${urlPatterns.length} attempted URL patterns. See console for details.`);
+          console.error('[Ghost API] Failed to fetch posts:', error.message);
+          throw new Error(`Failed to fetch Ghost API from all ${urlPatterns.length} attempted URL patterns.`);
         }
       }
     }
   }
 
   getUrlPatterns() {
-    // Generate multiple URL patterns to try
     const patterns = [];
     
     if (!import.meta.env.DEV) {
-      // Priority 1: Direct Ghost API URL (public HTTPS)
       if (GHOST_CONTENT_BASE) {
         const normalized = GHOST_CONTENT_BASE.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
         patterns.push(normalized);
-        return patterns; // Use exclusively if set
+        return patterns;
       }
       
       if (GHOST_API_URL) {
         const normalizedOrigin = GHOST_API_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
-        // Direct Ghost API (e.g., https://blogs.instatax.ai/ghost/api/content)
         patterns.push(`${normalizedOrigin}/ghost/api/content`);
       }
       
-      // Fallback: Serverless function (if available)
       const disableServerless = import.meta.env.VITE_DISABLE_GHOST_SERVERLESS === 'true';
       if (!disableServerless) {
         patterns.push('/api/ghost');
       }
       
-      // Last resort: Backend proxy patterns
-      const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
       const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
       patterns.push(
         normalizedProxy,
@@ -180,7 +117,6 @@ For development, the Vite proxy should handle this automatically.
         `${normalizedProxy}/ghost`
       );
     } else {
-      // Development - use vite proxy
       patterns.push(this.baseUrl);
     }
     
@@ -188,7 +124,6 @@ For development, the Vite proxy should handle this automatically.
   }
 
   async fetchPostBySlug(slug) {
-    // Use the same pattern-based approach
     const urlPatterns = this.getUrlPatterns();
     
     for (let i = 0; i < urlPatterns.length; i++) {
@@ -200,7 +135,6 @@ For development, the Vite proxy should handle this automatically.
         
         if (response.ok) {
           const data = await response.json();
-          // Update baseUrl for future requests
           this.baseUrl = baseUrl;
           return data.posts[0] || null;
         } else {
@@ -210,14 +144,13 @@ For development, the Vite proxy should handle this automatically.
         }
       } catch (error) {
         if (i === urlPatterns.length - 1) {
-          console.error('Error fetching post by slug:', { error, slug });
+          console.error('[Ghost API] Failed to fetch post by slug:', error.message);
           throw error;
         }
       }
     }
   }
 
-  // Helper method to format Ghost post data for our components
   formatPostData(ghostPost) {
     return {
       id: ghostPost.id,

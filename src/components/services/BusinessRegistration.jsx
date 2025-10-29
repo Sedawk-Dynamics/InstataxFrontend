@@ -5,7 +5,6 @@ import "./ServicePage.css";
 const BusinessRegistration = () => {
   // Get categoryId from URL parameters directly
   const { categoryId } = useParams();
-  console.log("Component loaded with categoryId from URL:", categoryId);
 
   const [formData, setFormData] = useState({
     prefix: "",
@@ -24,7 +23,6 @@ const BusinessRegistration = () => {
 
   // Clear services when categoryId changes
   useEffect(() => {
-    console.log("CategoryId changed, clearing services");
     setServices([]);
     setLoading(true);
   }, [categoryId]);
@@ -32,20 +30,14 @@ const BusinessRegistration = () => {
   // Fetch services when currentCategory changes
   useEffect(() => {
     if (currentCategory?.documentId) {
-      console.log(
-        "Current category changed, fetching services for:",
-        currentCategory.documentId
-      );
       fetchServices(currentCategory.documentId);
     }
   }, [currentCategory]);
 
   // Fetch the category details based on categoryId
   useEffect(() => {
-    console.log("useEffect triggered with categoryId:", categoryId);
     const fetchCategoryDetails = async () => {
       if (!categoryId) {
-        console.log("No categoryId provided, using default");
         setCurrentCategory({ name: "Start your Business" });
         setLoading(false);
         return;
@@ -65,7 +57,6 @@ const BusinessRegistration = () => {
         // Try each endpoint until one works
         for (const endpoint of endpoints) {
           try {
-            console.log(`Trying endpoint: ${baseUrl}${endpoint}`);
             const tempResponse = await fetch(`${baseUrl}${endpoint}`, {
               headers: {
                 Accept: "application/json",
@@ -75,16 +66,14 @@ const BusinessRegistration = () => {
 
             if (tempResponse.ok) {
               response = tempResponse;
-              console.log(`Successfully fetched from: ${baseUrl}${endpoint}`);
               break;
             }
           } catch (endpointErr) {
-            console.log(`Endpoint ${endpoint} failed:`, endpointErr.message);
+            // Silently continue to next endpoint
           }
         }
 
         if (!response) {
-          console.log("All API endpoints failed, using fallback categories");
           // Fallback to predefined categories if API fails
           const fallbackCategories = [
             {
@@ -109,21 +98,13 @@ const BusinessRegistration = () => {
             },
           ];
 
-          console.log(
-            "Looking for match in fallback categories for:",
-            categoryId
-          );
           const matchedCategory = fallbackCategories.find(
             (cat) => cat.slug === categoryId || cat.documentId === categoryId
           );
 
           if (matchedCategory) {
-            console.log("Found matching fallback category:", matchedCategory);
             setCurrentCategory(matchedCategory);
           } else {
-            console.log(
-              "No matching category found in fallbacks, using default"
-            );
             setCurrentCategory({ name: "Start your Business" });
           }
 
@@ -132,27 +113,14 @@ const BusinessRegistration = () => {
         }
 
         const data = await response.json();
-        console.log("Categories API Response:", data);
 
         if (data?.data?.length) {
           // Find the category that matches the categoryId
-          console.log("Looking for category match with ID:", categoryId);
-          console.log(
-            "Available categories:",
-            data.data.map((cat) => ({
-              slug: cat.slug,
-              id: cat.id,
-              documentId: cat.documentId,
-              name: cat.name,
-            }))
-          );
-
           const matchedCategory = data.data.find(
             (cat) => cat.slug === categoryId || cat.documentId === categoryId
           );
 
           if (matchedCategory) {
-            console.log("Found matching category:", matchedCategory);
             // Format the heading based on category name
             const categoryName = matchedCategory.name;
             const headingText = formatHeading(categoryName);
@@ -164,13 +132,9 @@ const BusinessRegistration = () => {
 
             setCurrentCategory(category);
           } else {
-            console.log(
-              "No matching category found in API response, using default"
-            );
             setCurrentCategory({ name: "Start your Business" });
           }
         } else {
-          console.log("No categories returned from API, using default");
           setCurrentCategory({ name: "Start your Business" });
         }
       } catch (err) {
@@ -187,12 +151,9 @@ const BusinessRegistration = () => {
   // Fetch services from API filtered by category
   const fetchServices = async (catDocId) => {
     if (!catDocId) {
-      console.log("No category document ID provided for service filtering");
       setServices([]);
       return;
     }
-
-    console.log(`Fetching services for category document ID: ${catDocId}`);
 
     try {
       const baseUrl = "https://backend.instatax.ai";
@@ -210,7 +171,6 @@ const BusinessRegistration = () => {
       for (const endpoint of endpoints) {
         try {
           const url = `${baseUrl}${endpoint}`;
-          console.log("Trying service endpoint:", url);
 
           const response = await fetch(url, {
             headers: {
@@ -220,14 +180,10 @@ const BusinessRegistration = () => {
           });
 
           if (!response.ok) {
-            console.log(
-              `Endpoint ${endpoint} returned status ${response.status}`
-            );
             continue;
           }
 
           const data = await response.json();
-          console.log(`Services API response for ${endpoint}:`, data);
 
           // Handle different response structures
           if (data?.data?.length) {
@@ -241,16 +197,12 @@ const BusinessRegistration = () => {
             break;
           }
         } catch (endpointErr) {
-          console.log(
-            `Service endpoint ${endpoint} failed:`,
-            endpointErr.message
-          );
+          // Silently continue to next endpoint
         }
       }
 
       // As a fallback, provide hardcoded services for known categories
       if (servicesData.length === 0) {
-        console.log("Using hardcoded services for category:", catDocId);
 
         // Hardcoded services based on category
         const hardcodedServices = {
@@ -304,10 +256,6 @@ const BusinessRegistration = () => {
         }
       }
 
-      console.log(
-        `Found ${servicesData.length} services for category:`,
-        servicesData
-      );
       setServices(servicesData);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -347,9 +295,6 @@ const BusinessRegistration = () => {
     try {
       const baseUrl = "https://backend.instatax.ai";
 
-      // Log the service ID being used
-      console.log("Selected service ID:", formData.service);
-
       // Format data according to Strapi's expected structure
       const submitData = {
         data: {
@@ -363,8 +308,6 @@ const BusinessRegistration = () => {
         },
       };
 
-      console.log("Submitting data:", submitData);
-
       const response = await fetch(`${baseUrl}/api/web-enquiries`, {
         method: "POST",
         headers: {
@@ -373,9 +316,7 @@ const BusinessRegistration = () => {
         body: JSON.stringify(submitData),
       });
 
-      console.log("Response status:", response.status);
       const responseData = await response.json();
-      console.log("Response data:", responseData);
 
       if (response.ok) {
         // Success handling

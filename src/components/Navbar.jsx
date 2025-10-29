@@ -74,13 +74,10 @@ const Navbar = () => {
         // Try each endpoint until one works
         for (const endpoint of endpoints) {
           try {
-            console.log(`Trying endpoint: ${baseUrl}${endpoint}`);
             const tempResponse = await fetch(`${baseUrl}${endpoint}`, {
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                // If you have auth headers, add them here
-                // 'Authorization': 'Bearer YOUR_TOKEN'
               },
             });
 
@@ -90,14 +87,13 @@ const Navbar = () => {
               break;
             }
           } catch (endpointErr) {
-            console.log(`Endpoint ${endpoint} failed:`, endpointErr.message);
+            // Silently continue to next endpoint
           }
         }
 
         // If all endpoints failed
         if (!response) {
           // Fallback to mock data from your file
-          console.log("All endpoints failed. Using sample data from file");
 
           // This is the sample data from your paste.txt
           const mockData = {
@@ -147,9 +143,7 @@ const Navbar = () => {
           return;
         }
 
-        console.log(`Successful endpoint: ${baseUrl}${successEndpoint}`);
         const data = await response.json();
-        console.log("API Response:", data);
 
         if (data && data.data && Array.isArray(data.data)) {
           // Sort categories by their order property if it exists
