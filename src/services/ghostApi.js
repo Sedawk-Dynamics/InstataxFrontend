@@ -5,7 +5,15 @@ const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 class GhostApiService {
   constructor() {
     // Use proxy in development, direct URL in production
-    this.baseUrl = import.meta.env.DEV ? '/api' : `${GHOST_API_URL}/ghost/api/content`;
+    if (import.meta.env.DEV) {
+      this.baseUrl = '/api';
+    } else {
+      // Normalize to HTTPS in production to avoid mixed-content errors
+      const normalizedOrigin = (GHOST_API_URL || '')
+        .replace(/^http:\/\//i, 'https://')
+        .replace(/\/$/, '');
+      this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
+    }
     this.apiKey = GHOST_CONTENT_API_KEY;
   }
 
