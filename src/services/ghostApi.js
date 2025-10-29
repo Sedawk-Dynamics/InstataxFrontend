@@ -6,22 +6,26 @@ const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 
 class GhostApiService {
   constructor() {
-    // In production, use serverless function first (works with Vercel/Netlify)
-    // Serverless function is at /api/ghost/[...path] - deployed with frontend
     if (import.meta.env.DEV) {
       // Development: use vite proxy
       this.baseUrl = '/api';
     } else {
-      // Production: prioritize serverless function (no separate backend needed)
-      // Serverless function handles: /api/ghost/posts -> Ghost /ghost/api/content/posts
-      this.baseUrl = '/api/ghost';
-      
-      // If VITE_GHOST_CONTENT_BASE is explicitly set, use it instead
+      // Production: prioritize direct Ghost API access if URL is public
       if (GHOST_CONTENT_BASE) {
+        // Use explicit full URL if provided
         const normalizedContentBase = GHOST_CONTENT_BASE
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = normalizedContentBase;
+      } else if (GHOST_API_URL) {
+        // Construct from Ghost API URL (e.g., https://blogs.instatax.ai)
+        const normalizedOrigin = GHOST_API_URL
+          .replace(/^http:\/\//i, 'https://')
+          .replace(/\/$/, '');
+        this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
+      } else {
+        // Fallback: use serverless function or proxy
+        this.baseUrl = '/api/ghost';
       }
     }
     this.apiKey = GHOST_CONTENT_API_KEY;
@@ -146,38 +150,35 @@ For development, the Vite proxy should handle this automatically.
     const patterns = [];
     
     if (!import.meta.env.DEV) {
-      // If VITE_GHOST_CONTENT_BASE is set, use it exclusively
+      // Priority 1: Direct Ghost API URL (public HTTPS)
       if (GHOST_CONTENT_BASE) {
         const normalized = GHOST_CONTENT_BASE.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
         patterns.push(normalized);
-        return patterns;
+        return patterns; // Use exclusively if set
       }
       
-      // Production: Try serverless function first (only if not disabled)
-      const disableServerless = import.meta.env.VITE_DISABLE_GHOST_SERVERLESS === 'true';
-      
-      if (!disableServerless) {
-        patterns.push('/api/ghost');  // Serverless function at /api/ghost/[...path]
-      }
-      
-      // Fallback patterns (if serverless function not available)
-      const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
-      const GHOST_API_URL = import.meta.env.VITE_GHOST_API_URL || '';
-      const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
-      
-      patterns.push(
-        normalizedProxy,                           // /api (old backend proxy)
-        `${normalizedProxy}/ghost/api/content`,    // /api/ghost/api/content
-        `${normalizedProxy}/ghost`,                // /api/ghost
-      );
-      
-      // If Ghost URL is available and public, try direct
-      if (GHOST_API_URL && !GHOST_API_URL.includes('traefik.me')) {
-        const httpsOrigin = GHOST_API_URL
+      if (GHOST_API_URL) {
+        const normalizedOrigin = GHOST_API_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
-        patterns.push(`${httpsOrigin}/ghost/api/content`);
+        // Direct Ghost API (e.g., https://blogs.instatax.ai/ghost/api/content)
+        patterns.push(`${normalizedOrigin}/ghost/api/content`);
       }
+      
+      // Fallback: Serverless function (if available)
+      const disableServerless = import.meta.env.VITE_DISABLE_GHOST_SERVERLESS === 'true';
+      if (!disableServerless) {
+        patterns.push('/api/ghost');
+      }
+      
+      // Last resort: Backend proxy patterns
+      const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
+      const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
+      patterns.push(
+        normalizedProxy,
+        `${normalizedProxy}/ghost/api/content`,
+        `${normalizedProxy}/ghost`
+      );
     } else {
       // Development - use vite proxy
       patterns.push(this.baseUrl);
