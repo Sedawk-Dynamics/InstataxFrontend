@@ -86,10 +86,25 @@ class GhostApiService {
         }
       } catch (error) {
         if (i === urlPatterns.length - 1) {
-          // Last pattern, throw error
+          // Last pattern, throw error with helpful message
           console.error('[Ghost API] All URL patterns failed. Last error:', error);
           console.error('[Ghost API] Tried patterns:', urlPatterns);
-          throw error;
+          const proxyUrl = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
+          const ghostUrl = import.meta.env.VITE_GHOST_API_URL || 'not configured';
+          console.error(`
+[Ghost API] Troubleshooting Guide:
+1. Backend Proxy: The backend at ${proxyUrl} needs to be configured to proxy Ghost API requests.
+   - Backend should accept requests at /api/ghost/* or similar
+   - Backend should forward to your Ghost instance at ${ghostUrl}
+   - Example: nginx/proxy config should route /api/ghost/* → Ghost /ghost/api/content/*
+
+2. Direct Access: Make Ghost instance publicly accessible with valid SSL certificate
+   - Update VITE_GHOST_API_URL to a public HTTPS URL
+   - Ensure CORS is configured on Ghost to allow requests from https://instatax.ai
+
+3. Alternative: Configure VITE_GHOST_CONTENT_BASE with the full public Ghost Content API URL
+          `);
+          throw new Error(`Failed to fetch Ghost API from all ${urlPatterns.length} attempted URL patterns. Please configure backend proxy or use a publicly accessible Ghost URL. See console for details.`);
         }
         // Continue to next pattern
         console.warn(`[Ghost API] Pattern ${i + 1} failed:`, error.message);
@@ -105,11 +120,23 @@ class GhostApiService {
     const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
     
     if (!import.meta.env.DEV) {
-      // Production patterns - try different proxy path structures
+      // Production patterns - ordered by likelihood to work
+      // Based on dev proxy: /api -> /ghost/api/content (rewrite pattern)
       patterns.push(
-        `${normalizedProxy}/ghost/api/content`,  // /api/ghost/api/content
-        `${normalizedProxy}/ghost`,               // /api/ghost
-        normalizedProxy                           // /api (with rewrite)
+        normalizedProxy,                           // /api (most likely - matches dev proxy rewrite pattern)
+        `${normalizedProxy}/ghost/api/content`,    // /api/ghost/api/content
+        `${normalizedProxy}/ghost`,                // /api/ghost
+        `${normalizedProxy}/posts`,                // /api/posts (direct posts endpoint)
+        `${normalizedProxy}/blog`,                 // /api/blog (alternative endpoint)
+        `${normalizedProxy}/ghost/content`         // /api/ghost/content (without api)
+      );
+      
+      // Try with base backend URL (without /api)
+      const baseBackend = normalizedProxy.replace(/\/api$/, '');
+      patterns.push(
+        `${baseBackend}/api/ghost/api/content`,   // backend.instatax.ai/api/ghost/api/content
+        `${baseBackend}/api/ghost`,                // backend.instatax.ai/api/ghost
+        `${baseBackend}/ghost/api/content`         // backend.instatax.ai/ghost/api/content
       );
       
       // If Ghost URL is available, try direct (even if internal, might work with proper CORS)
