@@ -23,7 +23,10 @@ class GhostApiService {
         const normalizedProxy = GHOST_PROXY_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
-        this.baseUrl = `${normalizedProxy}/ghost/api/content`;
+        // Backend proxy maps /api/ghost/* → Ghost's /ghost/api/content/*
+        // So we only need /api/ghost, and methods will append /posts, /posts/slug/, etc.
+        // This results in /api/ghost/posts/ which backend forwards to Ghost's /ghost/api/content/posts/
+        this.baseUrl = `${normalizedProxy}/ghost`;
       } else {
         // Fallback: construct from origin, normalized to HTTPS
         const normalizedOrigin = (GHOST_API_URL || '')
