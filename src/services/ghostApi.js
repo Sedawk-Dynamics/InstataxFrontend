@@ -6,33 +6,46 @@ const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 
 class GhostApiService {
   constructor() {
-    // Use proxy in development, direct URL in production
+    // Use proxy in development
     if (import.meta.env.DEV) {
       this.baseUrl = '/api';
     } else {
-      // In production, prioritize using a proxy through backend to avoid certificate issues
+      // In production, check if Ghost URL is public or internal
+      const isInternalUrl = (url) => {
+        if (!url) return true;
+        const lowerUrl = url.toLowerCase();
+        // Check for internal domains (traefik, localhost, internal IPs, etc.)
+        return lowerUrl.includes('traefik.me') ||
+               lowerUrl.includes('localhost') ||
+               lowerUrl.includes('127.0.0.1') ||
+               lowerUrl.includes('192.168.') ||
+               lowerUrl.includes('10.') ||
+               lowerUrl.includes('.local');
+      };
+
+      // In production, prioritize direct Ghost API if URL is public
       if (GHOST_CONTENT_BASE) {
-        // Explicit override (must be HTTPS)
+        // Explicit full URL override (must be HTTPS and include /ghost/api/content)
         const normalizedContentBase = GHOST_CONTENT_BASE
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = normalizedContentBase;
-      } else if (GHOST_PROXY_URL) {
-        // Use backend proxy (already working with valid certificate)
-        // Backend proxy rewrites /api/* to /ghost/api/content/* (same as dev proxy in vite.config.js)
-        // So /api/posts/ becomes /ghost/api/content/posts/
-        const normalizedProxy = GHOST_PROXY_URL
-          .replace(/^http:\/\//i, 'https://')
-          .replace(/\/$/, '');
-        // Use proxy URL directly (e.g., https://backend.instatax.ai/api)
-        // Methods will append /posts/, /posts/slug/, etc. which backend rewrites to /ghost/api/content/posts/, etc.
-        this.baseUrl = normalizedProxy;
-      } else {
-        // Fallback: construct from origin, normalized to HTTPS
-        const normalizedOrigin = (GHOST_API_URL || '')
+      } else if (GHOST_API_URL && !isInternalUrl(GHOST_API_URL)) {
+        // Use direct Ghost API if URL is public
+        const normalizedOrigin = GHOST_API_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
+      } else if (GHOST_PROXY_URL) {
+        // Fallback to backend proxy for internal URLs or when direct access isn't available
+        // Backend proxy should rewrite /api/* to /ghost/api/content/*
+        const normalizedProxy = GHOST_PROXY_URL
+          .replace(/^http:\/\//i, 'https://')
+          .replace(/\/$/, '');
+        this.baseUrl = normalizedProxy;
+      } else {
+        console.warn('Ghost API URL not configured. Set VITE_GHOST_API_URL, VITE_GHOST_CONTENT_BASE, or VITE_GHOST_PROXY_URL environment variable.');
+        this.baseUrl = '';
       }
     }
     this.apiKey = GHOST_CONTENT_API_KEY;
