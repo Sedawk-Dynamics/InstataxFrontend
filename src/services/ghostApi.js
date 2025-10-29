@@ -1,5 +1,6 @@
 // Ghost CMS API service
 const GHOST_API_URL = import.meta.env.VITE_GHOST_API_URL || '';
+const GHOST_CONTENT_BASE = import.meta.env.VITE_GHOST_CONTENT_BASE || '';
 const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 
 class GhostApiService {
@@ -8,11 +9,19 @@ class GhostApiService {
     if (import.meta.env.DEV) {
       this.baseUrl = '/api';
     } else {
-      // Normalize to HTTPS in production to avoid mixed-content errors
-      const normalizedOrigin = (GHOST_API_URL || '')
-        .replace(/^http:\/\//i, 'https://')
-        .replace(/\/$/, '');
-      this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
+      // Allow explicit override of full content base (must be HTTPS)
+      if (GHOST_CONTENT_BASE) {
+        const normalizedContentBase = GHOST_CONTENT_BASE
+          .replace(/^http:\/\//i, 'https://')
+          .replace(/\/$/, '');
+        this.baseUrl = normalizedContentBase;
+      } else {
+        // Fallback: construct from origin, normalized to HTTPS
+        const normalizedOrigin = (GHOST_API_URL || '')
+          .replace(/^http:\/\//i, 'https://')
+          .replace(/\/$/, '');
+        this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
+      }
     }
     this.apiKey = GHOST_CONTENT_API_KEY;
   }
@@ -32,7 +41,7 @@ class GhostApiService {
         meta: data.meta || {}
       };
     } catch (error) {
-      console.error('Error fetching posts from Ghost:', error);
+      console.error('Error fetching posts from Ghost:', { error, url: `${this.baseUrl}/posts/` });
       throw error;
     }
   }
@@ -49,7 +58,7 @@ class GhostApiService {
       const data = await response.json();
       return data.posts[0] || null;
     } catch (error) {
-      console.error('Error fetching post by slug:', error);
+      console.error('Error fetching post by slug:', { error, url: `${this.baseUrl}/posts/slug/${slug}/` });
       throw error;
     }
   }
