@@ -19,14 +19,14 @@ class GhostApiService {
         this.baseUrl = normalizedContentBase;
       } else if (GHOST_PROXY_URL) {
         // Use backend proxy (already working with valid certificate)
-        // Backend should proxy /api/ghost/* to Ghost Content API
+        // Backend proxy rewrites /api/* to /ghost/api/content/* (same as dev proxy in vite.config.js)
+        // So /api/posts/ becomes /ghost/api/content/posts/
         const normalizedProxy = GHOST_PROXY_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
-        // Backend proxy maps /api/ghost/* → Ghost's /ghost/api/content/*
-        // So we only need /api/ghost, and methods will append /posts, /posts/slug/, etc.
-        // This results in /api/ghost/posts/ which backend forwards to Ghost's /ghost/api/content/posts/
-        this.baseUrl = `${normalizedProxy}/ghost`;
+        // Use proxy URL directly (e.g., https://backend.instatax.ai/api)
+        // Methods will append /posts/, /posts/slug/, etc. which backend rewrites to /ghost/api/content/posts/, etc.
+        this.baseUrl = normalizedProxy;
       } else {
         // Fallback: construct from origin, normalized to HTTPS
         const normalizedOrigin = (GHOST_API_URL || '')
