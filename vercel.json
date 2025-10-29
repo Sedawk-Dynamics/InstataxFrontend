@@ -1,0 +1,18 @@
+{
+  "functions": {
+    "api/ghost/[...path].js": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/ghost/:path*",
+      "destination": "/api/ghost/:path*"
+    }
+  ],
+  "env": {
+    "GHOST_URL": "http://instatax-ghost-6cbd2b-82-29-166-148.traefik.me"
+  }
+}
+

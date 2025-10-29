@@ -1,0 +1,13 @@
+[build]
+  functions = "netlify/functions"
+  publish = "dist"
+
+[[redirects]]
+  from = "/api/ghost/*"
+  to = "/.netlify/functions/ghost-proxy?path=:splat"
+  status = 200
+  force = true
+
+[build.environment]
+  GHOST_URL = "http://instatax-ghost-6cbd2b-82-29-166-148.traefik.me"
+

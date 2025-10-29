@@ -1,0 +1,22 @@
+{
+  "name": "ghost-api-proxy",
+  "version": "1.0.0",
+  "description": "Simple Ghost API proxy server for InstaTax",
+  "main": "simple-ghost-proxy.js",
+  "scripts": {
+    "start": "node simple-ghost-proxy.js",
+    "dev": "nodemon simple-ghost-proxy.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["ghost", "proxy", "api"],
+  "author": "",
+  "license": "ISC"
+}
+

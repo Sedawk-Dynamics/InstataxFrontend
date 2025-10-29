@@ -6,50 +6,22 @@ const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 
 class GhostApiService {
   constructor() {
-    // Use proxy in development
+    // In production, use serverless function first (works with Vercel/Netlify)
+    // Serverless function is at /api/ghost/[...path] - deployed with frontend
     if (import.meta.env.DEV) {
+      // Development: use vite proxy
       this.baseUrl = '/api';
     } else {
-      // In production, check if Ghost URL is public or internal
-      const isInternalUrl = (url) => {
-        if (!url) return true;
-        const lowerUrl = url.toLowerCase();
-        // Check for internal domains (traefik, localhost, internal IPs, etc.)
-        return lowerUrl.includes('traefik.me') ||
-               lowerUrl.includes('localhost') ||
-               lowerUrl.includes('127.0.0.1') ||
-               lowerUrl.includes('192.168.') ||
-               lowerUrl.includes('10.') ||
-               lowerUrl.includes('.local');
-      };
-
-      // In production, prioritize direct Ghost API if URL is public
+      // Production: prioritize serverless function (no separate backend needed)
+      // Serverless function handles: /api/ghost/posts -> Ghost /ghost/api/content/posts
+      this.baseUrl = '/api/ghost';
+      
+      // If VITE_GHOST_CONTENT_BASE is explicitly set, use it instead
       if (GHOST_CONTENT_BASE) {
-        // Explicit full URL override (must be HTTPS and include /ghost/api/content)
         const normalizedContentBase = GHOST_CONTENT_BASE
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = normalizedContentBase;
-      } else if (GHOST_API_URL && !isInternalUrl(GHOST_API_URL)) {
-        // Use direct Ghost API if URL is public
-        const normalizedOrigin = GHOST_API_URL
-          .replace(/^http:\/\//i, 'https://')
-          .replace(/\/$/, '');
-        this.baseUrl = `${normalizedOrigin}/ghost/api/content`;
-      } else if (GHOST_PROXY_URL) {
-        // Fallback to backend proxy for internal URLs or when direct access isn't available
-        // Try different proxy path patterns to find the working one
-        const normalizedProxy = GHOST_PROXY_URL
-          .replace(/^http:\/\//i, 'https://')
-          .replace(/\/$/, '');
-        
-        // Try /api/ghost/api/content pattern first (full Ghost API path)
-        // If backend proxy handles /api/ghost/* → Ghost's /ghost/api/content/*
-        // Then /api/ghost/api/content/posts/ should work
-        this.baseUrl = `${normalizedProxy}/ghost/api/content`;
-      } else {
-        console.warn('Ghost API URL not configured. Set VITE_GHOST_API_URL, VITE_GHOST_CONTENT_BASE, or VITE_GHOST_PROXY_URL environment variable.');
-        this.baseUrl = '';
       }
     }
     this.apiKey = GHOST_CONTENT_API_KEY;
@@ -115,46 +87,32 @@ class GhostApiService {
   getUrlPatterns() {
     // Generate multiple URL patterns to try
     const patterns = [];
-    const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
-    const GHOST_API_URL = import.meta.env.VITE_GHOST_API_URL || '';
-    const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
     
     if (!import.meta.env.DEV) {
-      // Production patterns - ordered by likelihood to work
-      // Based on dev proxy: /api -> /ghost/api/content (rewrite pattern)
+      // Production: Serverless function first (deployed with frontend)
+      // This works with Vercel/Netlify - no separate backend needed!
+      patterns.push('/api/ghost');  // Serverless function at /api/ghost/[...path]
+      
+      // Fallback patterns (if serverless function not available)
+      const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
+      const GHOST_API_URL = import.meta.env.VITE_GHOST_API_URL || '';
+      const normalizedProxy = GHOST_PROXY_URL.replace(/^http:\/\//i, 'https://').replace(/\/$/, '');
+      
       patterns.push(
-        normalizedProxy,                           // /api (most likely - matches dev proxy rewrite pattern)
+        normalizedProxy,                           // /api (old backend proxy)
         `${normalizedProxy}/ghost/api/content`,    // /api/ghost/api/content
         `${normalizedProxy}/ghost`,                // /api/ghost
-        `${normalizedProxy}/posts`,                // /api/posts (direct posts endpoint)
-        `${normalizedProxy}/blog`,                 // /api/blog (alternative endpoint)
-        `${normalizedProxy}/ghost/content`         // /api/ghost/content (without api)
       );
       
-      // Try with base backend URL (without /api)
-      const baseBackend = normalizedProxy.replace(/\/api$/, '');
-      patterns.push(
-        `${baseBackend}/api/ghost/api/content`,   // backend.instatax.ai/api/ghost/api/content
-        `${baseBackend}/api/ghost`,                // backend.instatax.ai/api/ghost
-        `${baseBackend}/ghost/api/content`         // backend.instatax.ai/ghost/api/content
-      );
-      
-      // If Ghost URL is available, try direct (even if internal, might work with proper CORS)
-      // Try HTTPS first (browsers require HTTPS on HTTPS pages)
-      if (GHOST_API_URL) {
+      // If Ghost URL is available and public, try direct
+      if (GHOST_API_URL && !GHOST_API_URL.includes('traefik.me')) {
         const httpsOrigin = GHOST_API_URL
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         patterns.push(`${httpsOrigin}/ghost/api/content`);
-        
-        // Also try HTTP if it was originally HTTP (for local dev/testing)
-        if (GHOST_API_URL.startsWith('http://')) {
-          const httpOrigin = GHOST_API_URL.replace(/\/$/, '');
-          patterns.push(`${httpOrigin}/ghost/api/content`);
-        }
       }
     } else {
-      // Development - just use proxy
+      // Development - use vite proxy
       patterns.push(this.baseUrl);
     }
     
