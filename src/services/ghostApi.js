@@ -1,6 +1,7 @@
 // Ghost CMS API service
 const GHOST_API_URL = import.meta.env.VITE_GHOST_API_URL || '';
 const GHOST_CONTENT_BASE = import.meta.env.VITE_GHOST_CONTENT_BASE || '';
+const GHOST_PROXY_URL = import.meta.env.VITE_GHOST_PROXY_URL || 'https://backend.instatax.ai/api';
 const GHOST_CONTENT_API_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY || '';
 
 class GhostApiService {
@@ -9,12 +10,20 @@ class GhostApiService {
     if (import.meta.env.DEV) {
       this.baseUrl = '/api';
     } else {
-      // Allow explicit override of full content base (must be HTTPS)
+      // In production, prioritize using a proxy through backend to avoid certificate issues
       if (GHOST_CONTENT_BASE) {
+        // Explicit override (must be HTTPS)
         const normalizedContentBase = GHOST_CONTENT_BASE
           .replace(/^http:\/\//i, 'https://')
           .replace(/\/$/, '');
         this.baseUrl = normalizedContentBase;
+      } else if (GHOST_PROXY_URL) {
+        // Use backend proxy (already working with valid certificate)
+        // Backend should proxy /api/ghost/* to Ghost Content API
+        const normalizedProxy = GHOST_PROXY_URL
+          .replace(/^http:\/\//i, 'https://')
+          .replace(/\/$/, '');
+        this.baseUrl = `${normalizedProxy}/ghost/api/content`;
       } else {
         // Fallback: construct from origin, normalized to HTTPS
         const normalizedOrigin = (GHOST_API_URL || '')
