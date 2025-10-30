@@ -152,8 +152,7 @@
   }
 
   .services-illustration img {
-    max-width: 80%; /* Slightly larger for visibility */
-    min-width: 400px; /* Prevents excessive shrinking */
+    max-width: 90%; /* Slightly larger for visibility */
   }
 }
 
@@ -170,8 +169,7 @@
   }
 
   .services-illustration img {
-    max-width: 80%;
-    min-width: 350px; /* Prevents excessive shrinking */
+    max-width: 100%;
   }
 }
 

@@ -32,7 +32,7 @@
 .footer-link-container {
   flex: 1;
   text-align: right;
-  min-width: 300px;
+  min-width: 260px;
 }
 .footer-company h3 {
   font-size: 25px;
@@ -161,7 +161,7 @@
 }
 
 .footer-logo img {
-  height: 65px;
+  height: 80px;
   max-width: 100%;
   object-fit: contain;
   margin-bottom: 10px;
@@ -203,6 +203,14 @@
     gap: 25px;
     text-align: center;
     align-items: center;
+  }
+
+  /* Allow columns to shrink fully on narrow screens */
+  .footer-company,
+  .footer-link-container,
+  .footer-info {
+    min-width: 0;
+    width: 100%;
   }
 
   .footer-bottom .footer-container {

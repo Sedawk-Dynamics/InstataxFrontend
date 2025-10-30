@@ -1,6 +1,5 @@
 import React from "react";
 import AboutUs from "../components/AboutUs";
-import Footer from "../components/Footer";
 import AppPromotion from "../components/AppPromotion";
 import AboutCompany from "../components/AboutCompany";
 
@@ -10,7 +9,6 @@ function AboutHome() {
       <AboutUs />
       <AboutCompany />
       <AppPromotion />
-      <Footer />
     </div>
   );
 }

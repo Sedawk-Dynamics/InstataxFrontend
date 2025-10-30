@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  left: -50px;
+  left: 0;
   /* gap: 8px; */
   /* margin-left: -55px; */
   padding-left: 0;
@@ -43,8 +43,8 @@
 }
 
 .navbar-logo img {
-  height: 65px;
-  max-width: 600px;
+  max-width: 180px;
+  height: auto;
   object-fit: contain;
 }
 .navbar-logo {
@@ -163,6 +163,36 @@
   align-items: center;
 }
 
+/* Welcome username and Logout styles */
+.navbar-user .user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between text and button */
+  color: #333;
+  font-weight: 500;
+}
+
+.navbar-user .user-info span {
+  color: #1a1a1a;
+}
+
+.navbar-user .user-info button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #6c46d6;
+  background: transparent;
+  color: #6c46d6;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-user .user-info button:hover {
+  background: #6c46d6;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(108, 70, 214, 0.25);
+}
+
 .user-btn {
   background-color: #6c46d6;
   color: white;
@@ -229,6 +259,7 @@
 .mobile-menu-toggle {
   display: none;
   cursor: pointer;
+  margin-right: 12px; /* space before welcome/user section */
 }
 .mobile-menu-toggle span {
   display: block;
@@ -537,6 +568,17 @@ input:focus {
     font-size: 12px;
     padding: 5px 14px;
   }
+  /* Hide long welcome text on very small screens */
+  .navbar-user .user-info span {
+    display: none;
+  }
+  /* Hide auth area in header; move to mobile menu */
+  .navbar-user {
+    display: none;
+  }
+  .navbar-logo img {
+    max-width: 140px;
+  }
 }
 @media (max-width: 400px) {
     .navbar {
@@ -572,6 +614,17 @@ input:focus {
   .navbar-container {
     justify-content: space-between
   }
+  /* Compact user area on tablets */
+  .navbar-user .user-info {
+    gap: 8px;
+  }
+  .navbar-user .user-info button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .navbar-logo img {
+    max-width: 160px;
+  }
   /* Animation for hamburger to X */
   .menu-icon.active span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
@@ -585,6 +638,7 @@ input:focus {
   @media screen and (max-width: 768px) {
   .mobile-menu-toggle {
     display: block;
+    margin-right: 12px; /* ensure spacing on mobile */
   }
   
   .navbar-menu {

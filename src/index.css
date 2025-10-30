@@ -24,10 +24,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: block; /* prevent unintended horizontal centering that creates side gaps */
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden; /* avoid horizontal scroll from off-canvas elements */
 }
 
 h1 {

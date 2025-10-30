@@ -292,26 +292,24 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Blog link using React Router */}
-          <Link
-            to="/blogs"
-            onClick={() => setMenuOpen(false)}
-            className={location.pathname === "/blogs" ? "active" : ""}
-          >
-            Blog
-          </Link>
-
-          <Link
-            to="/about-us"
-            className={location.pathname === "/about-us" ? "active" : ""}
-          >
-            About Us
-          </Link>
           <Link
             to="/payment"
             className={location.pathname === "/payment" ? "active" : ""}
           >
             Payment
+          </Link>
+          <Link
+            to="/about-us"
+            className={location.pathname === "/about-us" ? "active" : ""}
+          >
+            About
+          </Link>
+          <Link
+            to="/contact-us"
+            className={location.pathname === "/contact-us" ? "active" : ""}
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact
           </Link>
         </div>
 
@@ -378,22 +376,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Blog link in mobile menu */}
-        <Link
-          to="/blogs"
-          onClick={() => setMenuOpen(false)}
-          className={location.pathname === "/blogs" ? "active" : ""}
-        >
-          Blog
-        </Link>
-
-        <Link
-          to="/about-us"
-          className={location.pathname === "/about-us" ? "active" : ""}
-          onClick={() => setMenuOpen(false)}
-        >
-          About Us
-        </Link>
         <Link
           to="/payment"
           className={location.pathname === "/payment" ? "active" : ""}
@@ -401,6 +383,43 @@ const Navbar = () => {
         >
           Payment
         </Link>
+        <Link
+          to="/about-us"
+          className={location.pathname === "/about-us" ? "active" : ""}
+          onClick={() => setMenuOpen(false)}
+        >
+          About
+        </Link>
+        <Link
+          to="/contact-us"
+          className={location.pathname === "/contact-us" ? "active" : ""}
+          onClick={() => setMenuOpen(false)}
+        >
+          Contact
+        </Link>
+        {isAuthenticated ? (
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogout();
+              setMenuOpen(false);
+            }}
+          >
+            Logout
+          </a>
+        ) : (
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setPopupOpen(true);
+              setMenuOpen(false);
+            }}
+          >
+            Login / Sign Up
+          </a>
+        )}
       </div>
 
       {/* Keep only one AuthPopup component */}

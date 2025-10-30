@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Footer from "../components/Footer";
 // import heroimage11 from "../assets/Payment1.png";
 import ChatWidget from "../components/ChatWidget";
 import "../pages/Payment.css";
@@ -107,7 +106,6 @@ function Payment() {
           </div>
         </div>
       </div>
-      <Footer />
       <ChatWidget />
     </div>
   );

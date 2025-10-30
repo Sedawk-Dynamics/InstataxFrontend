@@ -1,12 +1,12 @@
 // src/components/Footer.jsx
 import React from "react";
 import "./Footer.css";
-import logoWhite from "../assets/logo-01.jpg";
+import footerLogo from "../assets/logo-01-removebg.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
-  faTwitter,
+  faXTwitter,
   faInstagram,
   faYoutube,
   faLinkedin,
@@ -14,11 +14,13 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer" id="contact">
       <div className="footer-main">
         <div className="footer-container">
           <div className="footer-info">
-            <h3>InstaTax.ai</h3>
+            <div className="footer-logo">
+              <img src={footerLogo} alt="InstaTax.ai" />
+            </div>
             <p>
               Starting a business is exciting, but navigating legal complexities
               can be overwhelming. We simplify the process with expert guidance
@@ -30,8 +32,8 @@ const Footer = () => {
               <a href="#" aria-label="Facebook">
                 <FontAwesomeIcon icon={faFacebook} className="social-icon" />
               </a>
-              <a href="#" aria-label="Twitter">
-                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
+              <a href="https://x.com" aria-label="X (formerly Twitter)" target="_blank" rel="noreferrer noopener">
+                <FontAwesomeIcon icon={faXTwitter} className="social-icon" />
               </a>
               <a href="#" aria-label="Instagram">
                 <FontAwesomeIcon icon={faInstagram} className="social-icon" />
@@ -50,19 +52,14 @@ const Footer = () => {
               <h3>Company</h3>
               <ul className="footer-links">
                 <li>
-                  <a href="/disclaimer" className="footer-link">
+                  <Link to="/disclaimer" className="footer-link">
                     Disclaimer
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/careers" className="footer-link">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact-us" className="footer-link">
+                  <Link to="/contact-us" className="footer-link">
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -76,7 +73,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services" className="footer-link">
+                  <Link to="/services/start_business" className="footer-link">
                     Services
                   </Link>
                 </li>
@@ -92,7 +89,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link to="/payment" className="footer-link">
-                    Payments
+                    Payment
                   </Link>
                 </li>
               </ul>
@@ -104,8 +101,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <div className="footer-container">
           <div className="footer-logo">
-            <img src={logoWhite} alt="InstaTax.ai" />
-            {/* <span>InstaTax.ai</span> */}
+            <img src={footerLogo} alt="InstaTax.ai" />
           </div>
 
           <div className="footer-copyright">
