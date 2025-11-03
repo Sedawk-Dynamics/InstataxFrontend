@@ -150,6 +150,62 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
     return Object.keys(errors).length === 0;
   };
 
+  // Check if user exists in backend
+  const checkUserExists = async (phone) => {
+    try {
+      const phoneNumber = `91${phone}`;
+      
+      // Try the check-user endpoint first
+      try {
+        const response = await fetch(`${baseUrl}/mauth/check-user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phoneNumber,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          return data.exists === true || data.exists === false ? data.exists : null;
+        }
+      } catch (endpointError) {
+        // If check-user endpoint doesn't exist, try alternative: use login endpoint to check
+        console.log("check-user endpoint not available, trying alternative method");
+      }
+
+      // Alternative: Try to login (without OTP) to see if user exists
+      // This is a fallback if check-user endpoint doesn't exist
+      try {
+        const loginCheckResponse = await fetch(`${baseUrl}/mauth/check-user-by-phone`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phoneNumber,
+          }),
+        });
+
+        if (loginCheckResponse.ok) {
+          const data = await loginCheckResponse.json();
+          return data.exists === true || data.exists === false ? data.exists : null;
+        }
+      } catch (altError) {
+        // Both methods failed
+      }
+
+      // If all checks fail, return null to allow proceeding
+      return null;
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+      // If check fails, allow proceeding (backend might be down or endpoint doesn't exist)
+      return null;
+    }
+  };
+
   // Send OTP for login
   const sendLoginOTP = async (e) => {
     e.preventDefault();
@@ -159,6 +215,22 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
     setErrorMessage("");
 
     try {
+      // First, check if user exists in backend
+      const userExists = await checkUserExists(loginForm.phone);
+      
+      if (userExists === false) {
+        // User does not exist, redirect to signup
+        setIsLoading(false);
+        setErrorMessage("User not found. Please sign up first.");
+        setTimeout(() => {
+          setActiveTab("signup");
+          // Pre-fill phone number in signup form
+          setSignupForm(prev => ({ ...prev, phone: loginForm.phone }));
+        }, 1500);
+        return;
+      }
+
+      // User exists, proceed with OTP
       // Setup reCAPTCHA
       const appVerifier = setupRecaptcha();
 
@@ -224,7 +296,7 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
       localStorage.setItem("firebaseToken", firebaseToken);
       localStorage.setItem("firebaseUser", JSON.stringify(firebaseUser));
 
-      // Optionally sync with backend API (if you want to keep backend user data)
+      // Store data in backend - Required for login
       try {
         const phoneNumber = `91${loginForm.phone}`;
         const response = await fetch(`${baseUrl}/mauth/login`, {
@@ -245,23 +317,37 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
           }
           if (data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));
+            // Update Firebase user displayName with backend name if available
+            if (data.user.name && firebaseUser) {
+              firebaseUser.displayName = data.user.name;
+              localStorage.setItem("firebaseUser", JSON.stringify(firebaseUser));
+            }
           }
+        } else {
+          // If backend login fails, still allow Firebase auth but show warning
+          const errorData = await response.json().catch(() => ({}));
+          console.warn("Backend login failed:", errorData);
+          setErrorMessage("Login successful, but failed to sync with server. Please try again later.");
         }
       } catch (backendError) {
-        console.log("Backend sync error (non-critical):", backendError);
-        // Continue even if backend sync fails - Firebase auth is successful
+        console.error("Backend login error:", backendError);
+        setErrorMessage("Login successful, but failed to sync with server. Please try again later.");
+        // Continue with Firebase auth even if backend fails
       }
 
       // Update UI and close popup
       setIsLoading(false);
       onClose();
 
+      // Dispatch event to notify Navbar about auth state change
+      window.dispatchEvent(new Event("authStateChanged"));
+
       // Trigger success callback
       if (onVerifySuccess) {
         onVerifySuccess();
       }
 
-      // Force page reload to update navbar state
+      // Force page reload to update navbar state (optional, but keeps it in sync)
       window.location.reload();
     } catch (error) {
       setIsLoading(false);
@@ -288,6 +374,22 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
     setErrorMessage("");
 
     try {
+      // First, check if user already exists in backend
+      const userExists = await checkUserExists(signupForm.phone);
+      
+      if (userExists === true) {
+        // User already exists, redirect to login
+        setIsLoading(false);
+        setErrorMessage("User already exists. Please login instead.");
+        setTimeout(() => {
+          setActiveTab("login");
+          // Pre-fill phone number in login form
+          setLoginForm({ phone: signupForm.phone });
+        }, 1500);
+        return;
+      }
+
+      // User doesn't exist, proceed with signup OTP
       // Setup reCAPTCHA
       const appVerifier = setupRecaptcha();
 
@@ -353,8 +455,9 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
       localStorage.setItem("firebaseToken", firebaseToken);
       localStorage.setItem("firebaseUser", JSON.stringify(firebaseUser));
 
-      // Sync with backend API to register user with additional info
+      // Store data in backend - Required for signup
       try {
+        const phoneNumber = `91${signupForm.phone}`;
         const response = await fetch(`${baseUrl}/mauth/signup`, {
           method: "POST",
           headers: {
@@ -363,7 +466,7 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
           },
           body: JSON.stringify({
             name: signupForm.name,
-            phone: signupForm.phone,
+            phone: phoneNumber,
             state: signupForm.state,
             city: signupForm.city,
           }),
@@ -376,6 +479,11 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
           }
           if (data.user) {
             localStorage.setItem("user", JSON.stringify(data.user));
+            // Update Firebase user displayName with backend name if available
+            if (data.user.name && firebaseUser) {
+              firebaseUser.displayName = data.user.name;
+              localStorage.setItem("firebaseUser", JSON.stringify(firebaseUser));
+            }
           }
         } else {
           const data = await response.json();
@@ -388,20 +496,24 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
           ) {
             throw new Error("This mobile number is already registered. Please login.");
           }
-          throw new Error(errMessage);
+          throw new Error(`Failed to register: ${errMessage}`);
         }
       } catch (backendError) {
-        // If backend fails but Firebase auth succeeded, still allow login
-        console.error("Backend sync error:", backendError);
+        console.error("Backend signup error:", backendError);
+        // If backend signup fails, show error but Firebase auth succeeded
         if (backendError.message.includes("already registered")) {
           throw backendError;
         }
-        // Continue with Firebase auth only - user is authenticated via Firebase
+        // Throw error to prevent signup completion if backend fails
+        throw new Error(`Registration failed: ${backendError.message || "Please try again later."}`);
       }
 
       // Update UI and close popup
       setIsLoading(false);
       onClose();
+
+      // Dispatch event to notify Navbar about auth state change
+      window.dispatchEvent(new Event("authStateChanged"));
 
       if (onVerifySuccess) onVerifySuccess();
       window.location.reload();

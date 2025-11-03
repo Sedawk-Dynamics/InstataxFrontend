@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../assets/logo-02.jpg";
 import AuthPopup from "./AuthPopup";
+import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
 
 const Navbar = () => {
   const location = useLocation();
@@ -19,15 +21,74 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
 
-  // Check for authentication on component mount
-  useEffect(() => {
+  // Check for authentication on component mount and listen for changes
+  const checkAuthState = () => {
+    // Check for backend auth
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 
+    // Check for Firebase auth
+    const firebaseToken = localStorage.getItem("firebaseToken");
+    const firebaseUserData = localStorage.getItem("firebaseUser");
+
     if (token && userData) {
-      setUser(JSON.parse(userData));
+      // Backend user exists - prioritize this as it has the most complete data
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
       setIsAuthenticated(true);
+    } else if (firebaseToken && firebaseUserData) {
+      // Firebase user exists (even if backend sync failed)
+      const parsedFirebaseUser = JSON.parse(firebaseUserData);
+      
+      // Try to get name from backend user data first (if it exists)
+      let userName = null;
+      if (userData) {
+        try {
+          const parsedBackendUser = JSON.parse(userData);
+          userName = parsedBackendUser.name;
+        } catch (e) {
+          // Ignore parse error
+        }
+      }
+      
+      // Fallback to Firebase displayName, but never use phone number as name
+      if (!userName) {
+        userName = parsedFirebaseUser.displayName || null;
+      }
+      
+      setUser({
+        name: userName || "User",
+        phone: parsedFirebaseUser.phoneNumber?.replace("+91", "") || "",
+      });
+      setIsAuthenticated(true);
+    } else {
+      setUser(null);
+      setIsAuthenticated(false);
     }
+  };
+
+  useEffect(() => {
+    checkAuthState();
+
+    // Listen for storage changes (when login happens in another tab or after AuthPopup updates localStorage)
+    const handleStorageChange = (e) => {
+      if (e.key === "token" || e.key === "user" || e.key === "firebaseToken" || e.key === "firebaseUser") {
+        checkAuthState();
+      }
+    };
+
+    // Listen for custom event dispatched after successful login
+    const handleAuthChange = () => {
+      checkAuthState();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("authStateChanged", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("authStateChanged", handleAuthChange);
+    };
   }, []);
 
   // Toggle mobile menu
@@ -40,12 +101,26 @@ const Navbar = () => {
   };
 
   // Custom logout function
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      // Sign out from Firebase
+      await signOut(auth);
+    } catch (error) {
+      console.error("Firebase sign out error:", error);
+    }
+
+    // Clear all auth data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("firebaseToken");
+    localStorage.removeItem("firebaseUser");
+
+    // Update state
     setUser(null);
     setIsAuthenticated(false);
-    navigate("/"); // Redirect to home
+
+    // Redirect to home
+    navigate("/");
   };
 
   // Function to handle blog navigation
@@ -200,6 +275,10 @@ const Navbar = () => {
   };
 
   const handleVerifySuccess = () => {
+    // Check auth state after successful login
+    checkAuthState();
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new Event("authStateChanged"));
     navigate("/"); // Redirect to home page after verification
   };
 
@@ -317,7 +396,7 @@ const Navbar = () => {
         <div className="navbar-user">
           {isAuthenticated ? (
             <div className="user-info">
-              <span>Welcome, {user?.name}</span>
+              <span>Welcome, {user?.name || "User"}</span>
               <button onClick={handleLogout}>Logout</button>
             </div>
           ) : (
@@ -398,16 +477,23 @@ const Navbar = () => {
           Contact
         </Link>
         {isAuthenticated ? (
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              handleLogout();
-              setMenuOpen(false);
-            }}
-          >
-            Logout
-          </a>
+          <>
+            <div className="mobile-user-info" style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
+              <span style={{ color: "#333", fontWeight: "500" }}>
+                Welcome, {user?.name || "User"}
+              </span>
+            </div>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+                setMenuOpen(false);
+              }}
+            >
+              Logout
+            </a>
+          </>
         ) : (
           <a
             href="#"
