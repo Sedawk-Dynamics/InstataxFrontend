@@ -1,6 +1,6 @@
 /* src/components/Hero.css */
 /* .hero {
-  background-color: #673ee4;
+  background-color: #673DE6;
   color: white;
   padding: 0;
   overflow: hidden;
@@ -15,7 +15,7 @@
   flex-direction: row-reverse;
 } */
 .hero {
-  background-color: #673ee4;
+  background-color: #673DE6;
   color: white;
   padding: 0;
   overflow: hidden;
@@ -103,7 +103,7 @@
 }
 
 /* .quote-form {
-  background-color: #673ee4;
+  background-color: #673DE6;
   padding: 1.5rem 1rem;
  border-radius: 30px !important;
   max-width: 400px;
@@ -113,7 +113,7 @@
   border: 2px solid white; 
 } */
 .quote-form {
-  background-color: #673ee4;
+  background-color: #673DE6;
   padding: 1.5rem 1.5rem;
   border-radius: 30px !important;
   width: 100%;
@@ -155,7 +155,7 @@
 
 
 .quote-form input:focus {
-  border-color: #6c46d6;
+  border-color: #673DE6;
   outline: none;
 }
 
@@ -220,7 +220,7 @@
 }
 
 input:checked + .slider {
-  background-color: #6c46d6;
+  background-color: #673DE6;
 }
 
 input:checked + .slider:before {
@@ -236,7 +236,7 @@ input:checked + .slider:before {
 }
 
 .quote-btn {
-  background-color: #673EE4;
+  background-color: #673DE6;
   color: white;
   padding: 16px 0;
   border-radius: 20px;
@@ -271,7 +271,7 @@ input:checked + .slider:before {
 }
 
 .quote-form select:focus {
-  border-color: #6c46d6;
+  border-color: #673DE6;
 }
 
 .quote-form select:disabled {

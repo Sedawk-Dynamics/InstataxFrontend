@@ -1,7 +1,7 @@
 /* src/components/BlogSubscription.css */
 .blog-subscription {
-  /* background: linear-gradient(135deg, #7e57ff 0%, #9b6dff 100%); */
-  background-color: #673EE4;
+  /* background: linear-gradient(135deg, #673DE6 0%, #7a4de6 100%); */
+  background-color: #673DE6;
   padding: 60px 20px;
   color: white;
   position: relative;
@@ -79,7 +79,7 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #7e57ff;
+  border-color: #673DE6;
   background-color: #fff;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .toggle-switch.active {
-  background-color: #7e57ff;
+  background-color: #673DE6;
 }
 
 .toggle-button {
@@ -140,7 +140,7 @@
 .subscribe-button {
   width: 100%;
   padding: 14px;
-  background-color: #7e57ff;
+  background-color: #673DE6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -151,7 +151,7 @@
 }
 
 .subscribe-button:hover {
-  background-color: #6a46e5;
+  background-color: #5a35c9;
 }
 
 @media (max-width: 992px) {

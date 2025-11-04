@@ -6,18 +6,18 @@
         fill="#E8E3FF" />
 
     <!-- Decorative elements -->
-    <circle cx="120" cy="100" r="10" fill="#6C46D6" opacity="0.3" />
-    <circle cx="400" cy="150" r="8" fill="#6C46D6" opacity="0.3" />
-    <circle cx="380" cy="250" r="6" fill="#6C46D6" opacity="0.3" />
-    <circle cx="150" cy="300" r="12" fill="#6C46D6" opacity="0.3" />
+    <circle cx="120" cy="100" r="10" fill="#673DE6" opacity="0.3" />
+    <circle cx="400" cy="150" r="8" fill="#673DE6" opacity="0.3" />
+    <circle cx="380" cy="250" r="6" fill="#673DE6" opacity="0.3" />
+    <circle cx="150" cy="300" r="12" fill="#673DE6" opacity="0.3" />
 
-    <path d="M100 120L120 140M380 130L400 150M360 250L380 270M130 300L150 320" stroke="#6C46D6"
+    <path d="M100 120L120 140M380 130L400 150M360 250L380 270M130 300L150 320" stroke="#673DE6"
         opacity="0.5" stroke-width="2" />
 
     <!-- Speech bubbles -->
-    <rect x="300" y="140" width="60" height="40" rx="10" fill="#6C46D6" opacity="0.2" />
-    <rect x="220" y="100" width="80" height="50" rx="10" fill="#6C46D6" opacity="0.2" />
-    <rect x="120" y="180" width="70" height="45" rx="10" fill="#6C46D6" opacity="0.2" />
+    <rect x="300" y="140" width="60" height="40" rx="10" fill="#673DE6" opacity="0.2" />
+    <rect x="220" y="100" width="80" height="50" rx="10" fill="#673DE6" opacity="0.2" />
+    <rect x="120" y="180" width="70" height="45" rx="10" fill="#673DE6" opacity="0.2" />
 
     <!-- People illustrations -->
 
@@ -67,12 +67,12 @@
         mouth -->
         <path d="M0 -45 L4 -45" stroke="#222" stroke-width="1.5" /> <!-- nose -->
         <!-- Neck -->
-        <rect x="-5" y="-25" width="10" height="10" fill="#6C46D6" />
+        <rect x="-5" y="-25" width="10" height="10" fill="#673DE6" />
         <!-- Body -->
-        <rect x="-30" y="-15" width="60" height="65" fill="#6C46D6" />
+        <rect x="-30" y="-15" width="60" height="65" fill="#673DE6" />
         <!-- Arms -->
-        <rect x="-40" y="-5" width="10" height="10" rx="5" fill="#6C46D6" />
-        <rect x="30" y="-5" width="10" height="10" rx="5" fill="#6C46D6" />
+        <rect x="-40" y="-5" width="10" height="10" rx="5" fill="#673DE6" />
+        <rect x="30" y="-5" width="10" height="10" rx="5" fill="#673DE6" />
         <!-- Pants -->
         <rect x="-30" y="50" width="25" height="30" fill="#2D1C4A" />
         <rect x="5" y="50" width="25" height="30" fill="#2D1C4A" />
@@ -111,12 +111,12 @@
         <path d="M35 -15 C30 -20 25 -20 20 -15" stroke="#B593DE" stroke-width="8"
             stroke-linecap="round" />
         <!-- Pants -->
-        <rect x="-20" y="20" width="17" height="20" fill="#6C46D6" />
-        <rect x="3" y="20" width="17" height="20" fill="#6C46D6" />
+        <rect x="-20" y="20" width="17" height="20" fill="#673DE6" />
+        <rect x="3" y="20" width="17" height="20" fill="#673DE6" />
         <!-- Stripes on shirt -->
-        <rect x="-20" y="-20" width="40" height="5" fill="#6C46D6" />
-        <rect x="-20" y="-5" width="40" height="5" fill="#6C46D6" />
-        <rect x="-20" y="10" width="40" height="5" fill="#6C46D6" />
+        <rect x="-20" y="-20" width="40" height="5" fill="#673DE6" />
+        <rect x="-20" y="-5" width="40" height="5" fill="#673DE6" />
+        <rect x="-20" y="10" width="40" height="5" fill="#673DE6" />
     </g>
 
     <!-- Laptop -->

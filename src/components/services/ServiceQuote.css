@@ -82,7 +82,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #7e57ff;
+  border-color: #673DE6;
   background-color: #fff;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .toggle-switch.active {
-  background-color: #7e57ff;
+  background-color: #673DE6;
 }
 .toggle-button {
   position: absolute;
@@ -131,7 +131,7 @@
 .quote-button {
   width: 100%;
   padding: 8px;
-  background-color: #7e57ff;
+  background-color: #673DE6;
   color: white;
   border: none;
   border-radius: 5px;
@@ -141,7 +141,7 @@
 }
 
 .quote-button:hover {
-  background-color: #6a46e5;
+  background-color: #5a35c9;
 }
 
 /* Responsive Styles */

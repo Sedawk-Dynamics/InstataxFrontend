@@ -33,7 +33,7 @@
     <!-- Business woman illustration -->
     <g transform="translate(400, 250)">
         <!-- Suit/Dress -->
-        <rect x="-35" y="-80" width="70" height="140" rx="5" fill="#6c46d6" />
+        <rect x="-35" y="-80" width="70" height="140" rx="5" fill="#673DE6" />
 
         <!-- Head -->
         <circle cx="0" cy="-100" r="30" fill="#ffd699" />
@@ -53,24 +53,24 @@
 
     <!-- Small people illustrations -->
     <g transform="translate(100, 200) scale(0.5)">
-        <circle cx="0" cy="-20" r="20" fill="#6c46d6" />
-        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#6c46d6" />
-        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
-        <rect x="15" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
+        <circle cx="0" cy="-20" r="20" fill="#673DE6" />
+        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#673DE6" />
+        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#673DE6" />
+        <rect x="15" y="0" width="10" height="40" rx="5" fill="#673DE6" />
     </g>
 
     <g transform="translate(170, 170) scale(0.5)">
-        <circle cx="0" cy="-20" r="20" fill="#6c46d6" />
-        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#6c46d6" />
-        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
-        <rect x="15" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
+        <circle cx="0" cy="-20" r="20" fill="#673DE6" />
+        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#673DE6" />
+        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#673DE6" />
+        <rect x="15" y="0" width="10" height="40" rx="5" fill="#673DE6" />
     </g>
 
     <g transform="translate(470, 150) scale(0.5)">
-        <circle cx="0" cy="-20" r="20" fill="#6c46d6" />
-        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#6c46d6" />
-        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
-        <rect x="15" y="0" width="10" height="40" rx="5" fill="#6c46d6" />
+        <circle cx="0" cy="-20" r="20" fill="#673DE6" />
+        <rect x="-10" y="0" width="20" height="40" rx="5" fill="#673DE6" />
+        <rect x="-25" y="0" width="10" height="40" rx="5" fill="#673DE6" />
+        <rect x="15" y="0" width="10" height="40" rx="5" fill="#673DE6" />
     </g>
 
     <!-- Gear icons -->

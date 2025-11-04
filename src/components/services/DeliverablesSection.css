@@ -1,6 +1,6 @@
 /* Deliverables Section Styles */
 .deliverables-container {
-  background-color: #7e57ff;
+  background-color: #673DE6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@
 
 .check-icon {
   background-color: white;
-  color: #7e57ff;
+  color: #673DE6;
   width: 24px;
   height: 24px;
   border-radius: 50%;

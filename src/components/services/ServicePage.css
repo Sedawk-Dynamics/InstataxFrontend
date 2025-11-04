@@ -76,7 +76,7 @@
 }
 
 .quote-form {
-  background-color: #673ee4;
+  background-color: #673DE6;
   padding: 1.5rem 1.5rem;
   border-radius: 30px !important;
   width: 100%;
@@ -132,7 +132,7 @@
 
 .quote-form input:focus,
 .quote-form select:focus {
-  border-color: #6c46d6;
+  border-color: #673DE6;
   outline: none;
 }
 
@@ -195,7 +195,7 @@
 }
 
 input:checked + .slider {
-  background-color: #6c46d6;
+  background-color: #673DE6;
 }
 
 input:checked + .slider:before {
@@ -211,7 +211,7 @@ input:checked + .slider:before {
 }
 
 .quote-btn-service {
-   background-color: #673EE4;
+   background-color: #673DE6;
   color: white;
   padding: 16px 0;
   border-radius: 20px;
