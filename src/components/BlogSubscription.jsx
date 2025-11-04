@@ -10,6 +10,9 @@ const BlogSubscription = () => {
   const [prefix, setPrefix] = useState("");
   const [whatsappUpdates, setWhatsappUpdates] = useState(true);
 
+  // Prefix options
+  const prefixOptions = ["Mr", "Ms", "Mrs"];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: Implement actual API call to backend
@@ -36,12 +39,20 @@ const BlogSubscription = () => {
             <form onSubmit={handleSubmit}>
               <div className="name-row">
                 <div className="form-group prefix-group">
-                  <input
-                    type="text"
-                    placeholder="Prefix"
+                  <select
                     value={prefix}
                     onChange={(e) => setPrefix(e.target.value)}
-                  />
+                    required
+                  >
+                    <option value="" disabled>
+                      Prefix
+                    </option>
+                    {prefixOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="form-group fullname-group">
