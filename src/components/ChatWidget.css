@@ -14,27 +14,99 @@
   font-weight: 500;
   font-size: 15px;
   display: flex;
-   
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 15px rgba(108, 70, 214, 0.3);
-  transition: transform 0.3s, background-color 0.3s;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(103, 62, 228, 0.4),
+              0 0 25px rgba(103, 62, 228, 0.3),
+              0 0 40px rgba(103, 62, 228, 0.2),
+              inset 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
+  animation: button-pulse 2.5s ease-in-out infinite;
 }
-.chat-btn img {
-  width: 25px; /* Adjust chat icon size */
+
+.chat-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(103, 62, 228, 0.8), rgba(108, 70, 214, 0.6));
+  z-index: -1;
+  opacity: 0.6;
+  animation: border-glow 2s ease-in-out infinite;
+}
+
+.chat-btn::after {
+  content: '';
+  display: none;
+}
+
+.chat-btn .chat-logo-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(1.1);
+  transition: transform 0.3s ease;
+  margin-right: 4px;
+}
+
+.chat-btn .chat-icon {
+  width: 25px;
   height: 25px;
+  filter: brightness(1.1);
+  transition: transform 0.3s ease;
+  color: white;
 }
 
 .chat-btn:hover {
   background-color: #5a2ec0;
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 25px rgba(103, 62, 228, 0.6),
+              0 0 35px rgba(103, 62, 228, 0.4),
+              0 0 50px rgba(103, 62, 228, 0.3),
+              inset 0 0 25px rgba(255, 255, 255, 0.15);
+}
+
+.chat-btn:hover .chat-icon,
+.chat-btn:hover .chat-logo-icon {
+  transform: scale(1.1);
+}
+
+@keyframes button-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(103, 62, 228, 0.4),
+                0 0 25px rgba(103, 62, 228, 0.3),
+                0 0 40px rgba(103, 62, 228, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(103, 62, 228, 0.5),
+                0 0 30px rgba(103, 62, 228, 0.4),
+                0 0 50px rgba(103, 62, 228, 0.3),
+                inset 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes border-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
 }
 
 .chat-icon {
   width: 24px;
   height: 24px;
+  display: none; /* Hide chat icon on desktop/tablet */
 }
 
 .chat-box {
@@ -441,5 +513,9 @@
     width: calc(100% - 40px);
     right: 20px;
     bottom: 80px;
+  }
+  
+  .chat-icon {
+    display: block; /* Show chat icon on phone screens only */
   }
 }

@@ -26,7 +26,6 @@
 // export default ServiceQuoteHome;
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ChatWidget from "../ChatWidget";
 import BenefitsSection from "./BenefitsSection";
 import DeliverablesSection from "./DeliverablesSection";
 import FAQsSection from "./FAQsSection";
@@ -87,7 +86,6 @@ function ServiceQuoteHome() {
       <BenefitsSection benefits={serviceData.benefits} />
       <DeliverablesSection deliverables={serviceData.deliverables} />
       <FAQsSection faqs={serviceData.faqs} /> {/* ✅ Updated */}
-      <ChatWidget />
     </div>
   );
 }

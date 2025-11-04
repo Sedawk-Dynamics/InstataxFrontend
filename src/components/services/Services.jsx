@@ -105,13 +105,6 @@ const Services = () => {
           </div>
         </div>
       </div>
-
-      {/* Chat Widget */}
-      <div className="chat-widget">
-        <button className="chat-btn">
-          <span>Chat with Us!</span>
-        </button>
-      </div>
     </section>
   );
 };

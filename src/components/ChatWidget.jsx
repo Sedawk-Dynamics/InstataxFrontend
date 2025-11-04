@@ -8,6 +8,7 @@ import {
   FaNewspaper,
   FaTimes,
   FaArrowLeft,
+  FaComments,
 } from "react-icons/fa";
 
 const ChatWidget = () => {
@@ -176,7 +177,8 @@ const ChatWidget = () => {
   return (
     <div className="chat-widget">
       <button className="chat-btn" onClick={() => setIsOpen(!isOpen)}>
-        <img src={chatIcon} alt="Chat" className="chat-icon" />
+        <img src={chatIcon} alt="Logo" className="chat-logo-icon" />
+        <FaComments className="chat-icon" />
         <span>Chat with Us!</span>
       </button>
 
