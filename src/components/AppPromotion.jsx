@@ -3,7 +3,7 @@ import React from "react";
 import "./AppPromotion.css";
 import googlePlayBadge from "../assets/google-play-badge.png";
 import appStoreBadge from "../assets/app-store-badge.png";
-import appIllustration from "../assets/mobile1.png"; // Update this to your image filename
+import appIllustration from "../assets/mobile preview-web-new1.png"; // Update this to your image filename
 
 const AppPromotion = () => {
   return (
