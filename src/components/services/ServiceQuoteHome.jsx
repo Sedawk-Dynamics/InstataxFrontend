@@ -27,7 +27,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ChatWidget from "../ChatWidget";
-import Footer from "../Footer";
 import BenefitsSection from "./BenefitsSection";
 import DeliverablesSection from "./DeliverablesSection";
 import FAQsSection from "./FAQsSection";
@@ -89,7 +88,6 @@ function ServiceQuoteHome() {
       <DeliverablesSection deliverables={serviceData.deliverables} />
       <FAQsSection faqs={serviceData.faqs} /> {/* ✅ Updated */}
       <ChatWidget />
-      <Footer />
     </div>
   );
 }
