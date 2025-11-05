@@ -94,6 +94,11 @@
 }
 
 @media (max-width: 576px) {
+  .overview-content {
+    padding: 24px 20px;
+    box-sizing: border-box;
+  }
+
   .overview-title {
     font-size: 20px;
   }

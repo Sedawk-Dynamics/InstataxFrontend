@@ -150,6 +150,7 @@
   .service-content {
     flex-direction: column;
     text-align: center;
+    padding: 0 20px;
   }
 
   .quote-form-container {
@@ -164,6 +165,10 @@
 }
 
 @media (max-width: 768px) {
+  .service-content {
+    padding: 0 20px;
+  }
+
   .service-info {
     width: 100%;
   }
@@ -174,6 +179,20 @@
 }
 
 @media (max-width: 576px) {
+  .service-quote-container {
+    padding: 20px 16px;
+    box-sizing: border-box;
+  }
+
+  .service-content {
+    width: 100%;
+    padding: 0;
+  }
+
+  .service-info {
+    padding: 0;
+  }
+
   .service-info h1 {
     font-size: 22px;
   }
