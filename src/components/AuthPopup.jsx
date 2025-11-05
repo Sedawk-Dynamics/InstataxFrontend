@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./AuthPopup.css";
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../config/firebase";
+import { FaPhone, FaUser, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 // import { useNavigate } from "react-router-dom";
 
 const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
@@ -21,10 +22,11 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
     phone: "",
   });
 
-  // Sign up form state - name, phone, state, city
+  // Sign up form state - name, phone, email, state, city
   const [signupForm, setSignupForm] = useState({
     name: "",
     phone: "",
+    email: "",
     state: "",
     city: "",
   });
@@ -124,7 +126,7 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
     return Object.keys(errors).length === 0;
   };
 
-  // Validate signup form - name, phone, state, city
+  // Validate signup form - name, phone, email, state, city
   const validateSignupForm = () => {
     const errors = {};
 
@@ -136,6 +138,12 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
       errors.phone = "Mobile number is required";
     } else if (!/^\d{10}$/.test(signupForm.phone)) {
       errors.phone = "Please enter a valid 10-digit mobile number";
+    }
+
+    if (!signupForm.email) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupForm.email)) {
+      errors.email = "Please enter a valid email address";
     }
 
     if (!signupForm.state) {
@@ -467,6 +475,7 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
           body: JSON.stringify({
             name: signupForm.name,
             phone: phoneNumber,
+            email: signupForm.email,
             state: signupForm.state,
             city: signupForm.city,
           }),
@@ -581,15 +590,18 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
             {!otpSent ? (
               <>
                 <div className="form-group">
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Mobile Number (10 digits)"
-                    value={loginForm.phone}
-                    onChange={handleLoginChange}
-                    disabled={isLoading}
-                    maxLength="10"
-                  />
+                  <div className="input-with-icon">
+                    <FaPhone className="input-icon" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Mobile Number (10 digits)"
+                      value={loginForm.phone}
+                      onChange={handleLoginChange}
+                      disabled={isLoading}
+                      maxLength="10"
+                    />
+                  </div>
                   {loginErrors.phone && (
                     <span className="error-text">{loginErrors.phone}</span>
                   )}
@@ -656,58 +668,87 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
             {!otpSent ? (
               <>
                 <div className="form-group">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Full Name"
-                    value={signupForm.name}
-                    onChange={handleSignupChange}
-                    disabled={isLoading}
-                  />
+                  <div className="input-with-icon">
+                    <FaUser className="input-icon" />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Full Name"
+                      value={signupForm.name}
+                      onChange={handleSignupChange}
+                      disabled={isLoading}
+                    />
+                  </div>
                   {signupErrors.name && (
                     <span className="error-text">{signupErrors.name}</span>
                   )}
                 </div>
 
                 <div className="form-group">
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Mobile Number (10 digits)"
-                    value={signupForm.phone}
-                    onChange={handleSignupChange}
-                    disabled={isLoading}
-                    maxLength="10"
-                  />
+                  <div className="input-with-icon">
+                    <FaPhone className="input-icon" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Mobile Number (10 digits)"
+                      value={signupForm.phone}
+                      onChange={handleSignupChange}
+                      disabled={isLoading}
+                      maxLength="10"
+                    />
+                  </div>
                   {signupErrors.phone && (
                     <span className="error-text">{signupErrors.phone}</span>
                   )}
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group half">
+                <div className="form-group">
+                  <div className="input-with-icon">
+                    <FaEnvelope className="input-icon" />
                     <input
-                      type="text"
-                      name="state"
-                      placeholder="State"
-                      value={signupForm.state}
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      value={signupForm.email}
                       onChange={handleSignupChange}
                       disabled={isLoading}
                     />
+                  </div>
+                  {signupErrors.email && (
+                    <span className="error-text">{signupErrors.email}</span>
+                  )}
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group half">
+                    <div className="input-with-icon">
+                      <FaMapMarkerAlt className="input-icon" />
+                      <input
+                        type="text"
+                        name="state"
+                        placeholder="State"
+                        value={signupForm.state}
+                        onChange={handleSignupChange}
+                        disabled={isLoading}
+                      />
+                    </div>
                     {signupErrors.state && (
                       <span className="error-text">{signupErrors.state}</span>
                     )}
                   </div>
 
                   <div className="form-group half">
-                    <input
-                      type="text"
-                      name="city"
-                      placeholder="City"
-                      value={signupForm.city}
-                      onChange={handleSignupChange}
-                      disabled={isLoading}
-                    />
+                    <div className="input-with-icon">
+                      <FaMapMarkerAlt className="input-icon" />
+                      <input
+                        type="text"
+                        name="city"
+                        placeholder="City"
+                        value={signupForm.city}
+                        onChange={handleSignupChange}
+                        disabled={isLoading}
+                      />
+                    </div>
                     {signupErrors.city && (
                       <span className="error-text">{signupErrors.city}</span>
                     )}
