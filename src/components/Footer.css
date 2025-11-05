@@ -227,19 +227,28 @@
     text-align: center;
   }
 
-  /* Ensure footer content stacks neatly */
+  /* Ensure footer content displays side by side on mobile */
   .footer-content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
     text-align: center;
-    gap: 15px;
+    gap: 20px;
+    width: 100%;
   }
 
   .footer-content h3,
   .footer-company h3 {
     text-align: center;
     margin-bottom: 15px;
+  }
+
+  .footer-company,
+  .footer-links-container {
+    flex: 1;
+    min-width: 0;
+    max-width: 50%;
   }
 
   /* Center align links */
@@ -330,5 +339,18 @@
 
   .footer-copyright p {
     margin: 0; /* Remove extra margin */
+  }
+
+  /* Keep Company and Content side by side on small phones */
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 15px;
+  }
+
+  .footer-company,
+  .footer-links-container {
+    flex: 1;
+    min-width: 0;
   }
 }
