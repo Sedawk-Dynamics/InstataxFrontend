@@ -29,19 +29,19 @@ const Footer = () => {
             </p>
 
             <div className="social-icons">
-              <a href="#" aria-label="Facebook">
+              <a href="https://www.facebook.com/InstaTaxai" aria-label="Facebook" target="_blank" rel="noreferrer noopener">
                 <FontAwesomeIcon icon={faFacebook} className="social-icon" />
               </a>
-              <a href="https://x.com" aria-label="X (formerly Twitter)" target="_blank" rel="noreferrer noopener">
+              <a href="https://x.com/instatax_ai" aria-label="X (formerly Twitter)" target="_blank" rel="noreferrer noopener">
                 <FontAwesomeIcon icon={faXTwitter} className="social-icon" />
               </a>
-              <a href="#" aria-label="Instagram">
+              <a href="https://www.instagram.com/instatax.ai/" aria-label="Instagram" target="_blank" rel="noreferrer noopener">
                 <FontAwesomeIcon icon={faInstagram} className="social-icon" />
               </a>
               <a href="#" aria-label="YouTube">
                 <FontAwesomeIcon icon={faYoutube} className="social-icon" />
               </a>
-              <a href="#" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/instatax-ai/about/" aria-label="LinkedIn" target="_blank" rel="noreferrer noopener">
                 <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
               </a>
             </div>
