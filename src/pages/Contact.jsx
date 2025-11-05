@@ -34,11 +34,11 @@ function Contact() {
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="name">Full name</label>
-                <input id="name" name="name" type="text" placeholder="Your name" required value={formData.name} onChange={handleChange} />
+                <input id="name" name="name" type="text" placeholder="Rahul Kumar" required value={formData.name} onChange={handleChange} />
               </div>
               <div className="form-field">
                 <label htmlFor="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" placeholder="Optional" value={formData.phone} onChange={handleChange} />
+                <input id="phone" name="phone" type="tel" placeholder="+91 0000000000" value={formData.phone} onChange={handleChange} />
               </div>
             </div>
             <div className="form-field">
