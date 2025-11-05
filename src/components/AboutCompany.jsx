@@ -2,7 +2,6 @@
 import React from "react";
 import "./AboutCompany.css";
 import companyIllustration from "../assets/aboutus1.png";
-import ChatWidget from "./ChatWidget";
 
 const AboutCompany = () => {
   return (
@@ -51,8 +50,6 @@ const AboutCompany = () => {
           <img src={companyIllustration} alt="Team collaborating" />
         </div>
       </div>
-
-      <ChatWidget />
     </section>
   );
 };

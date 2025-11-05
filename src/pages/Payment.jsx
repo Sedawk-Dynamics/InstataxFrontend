@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import heroimage11 from "../assets/Payment1.png";
-import ChatWidget from "../components/ChatWidget";
 import "../pages/Payment.css";
 // Import payment icons (you'll need to add these to your assets folder)
 import visaIcon from "../assets/visa.svg";
@@ -106,7 +105,6 @@ function Payment() {
           </div>
         </div>
       </div>
-      <ChatWidget />
     </div>
   );
 }

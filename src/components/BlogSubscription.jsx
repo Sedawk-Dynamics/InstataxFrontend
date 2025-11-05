@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import "./BlogSubscription.css";
 import subscriptionIllustration from "../assets/blogs1.png";
-import ChatWidget from "./ChatWidget";
 
 const BlogSubscription = () => {
   const [email, setEmail] = useState("");
@@ -84,7 +83,6 @@ const BlogSubscription = () => {
           </div>
         </div>
       </div>
-      <ChatWidget />
     </section>
   );
 };
