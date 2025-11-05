@@ -471,7 +471,7 @@ const BusinessRegistration = () => {
                 )}
               </select>
 
-              <div className="form-toggle">
+              {/* <div className="form-toggle">
                 <label className="toggle">
                   <input
                     type="checkbox"
@@ -482,7 +482,7 @@ const BusinessRegistration = () => {
                   <span className="slider round"></span>
                 </label>
                 Get updates through Whatsapp
-              </div>
+              </div> */}
 
               <button
                 type="submit"

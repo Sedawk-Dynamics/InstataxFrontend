@@ -295,7 +295,7 @@ fetchServices();
 )}
         </select>
 
-        <div className="form-toggle">
+        {/* <div className="form-toggle">
           <label className="toggle">
             <input
               type="checkbox"
@@ -306,7 +306,7 @@ fetchServices();
             <span className="slider round"></span>
           </label>
           <span>Get updates through Whatsapp</span>
-        </div>
+        </div> */}
 
         <button type="submit" className="quote-btn" disabled={isSubmitting}>
           {isSubmitting ? "Processing..." : "Get Quote Now"}
