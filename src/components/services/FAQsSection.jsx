@@ -22,7 +22,18 @@ const FAQsSection = ({ faqs }) => {
         <div className="faqs-list">
           {faqs.map((faq, index) => (
             <div key={faq.id || index} className="faq-item">
-              <div className="faq-question" onClick={() => toggleFAQ(index)}>
+              <button 
+                className="faq-question" 
+                onClick={() => toggleFAQ(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleFAQ(index);
+                  }
+                }}
+                aria-expanded={openIndex === index}
+                aria-controls={`faq-answer-${index}`}
+              >
                 <div className="faq-text">{faq.title}</div>
                 <div
                   className={`faq-icon ${openIndex === index ? "open" : ""}`}
@@ -41,9 +52,9 @@ const FAQsSection = ({ faqs }) => {
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
                 </div>
-              </div>
+              </button>
               {openIndex === index && (
-                <div className="faq-answer">
+                <div className="faq-answer" id={`faq-answer-${index}`}>
                   <ReactMarkdown>{faq.description}</ReactMarkdown>
                 </div>
               )}

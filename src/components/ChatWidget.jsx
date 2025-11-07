@@ -174,27 +174,72 @@ const ChatWidget = () => {
     }
   };
 
+  // Keyboard navigation for chat widget
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
   return (
     <div className="chat-widget">
-      <button className="chat-btn" onClick={() => setIsOpen(!isOpen)}>
+      <button 
+        className="chat-btn" 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Open chat widget"
+        aria-expanded={isOpen}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }
+        }}
+      >
         <img src={chatIcon} alt="Logo" className="chat-logo-icon" />
         <FaComments className="chat-icon" />
         <span>Chat with Us!</span>
       </button>
 
       {isOpen && (
-        <div className="chat-box">
+        <div className="chat-box" role="dialog" aria-modal="true" aria-labelledby="chat-header-title">
           <div className="chat-header">
             {activeView !== "chat" && (
               <button
                 onClick={() => setActiveView("chat")}
                 className="back-btn"
+                aria-label="Back to chat"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActiveView("chat");
+                  }
+                }}
               >
                 <FaArrowLeft />
               </button>
             )}
-            <h3>{renderHeaderTitle()}</h3>
-            <button onClick={() => setIsOpen(false)} className="close-btn">
+            <h3 id="chat-header-title">{renderHeaderTitle()}</h3>
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="close-btn"
+              aria-label="Close chat"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setIsOpen(false);
+                }
+              }}
+            >
               <FaTimes />
             </button>
           </div>
@@ -208,12 +253,24 @@ const ChatWidget = () => {
               <button
                 className="nav-btn faq-btn"
                 onClick={() => setActiveView("faq")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActiveView("faq");
+                  }
+                }}
               >
                 <FaQuestionCircle /> FAQs
               </button>
               <button
                 className="nav-btn news-btn"
                 onClick={() => setActiveView("news")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActiveView("news");
+                  }
+                }}
               >
                 <FaNewspaper /> News
               </button>

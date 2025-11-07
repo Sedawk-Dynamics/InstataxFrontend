@@ -554,26 +554,109 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
   };
 
 
+  // Focus trap and keyboard navigation
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    const handleTab = (e) => {
+      if (!popupRef.current) return;
+
+      const focusableElements = popupRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleTab);
+
+    // Focus first element when popup opens
+    setTimeout(() => {
+      const firstElement = popupRef.current?.querySelector(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      firstElement?.focus();
+    }, 100);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleTab);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="popup-overlay" onClick={onClose}>
-      <div className="popup-container" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+    <div className="popup-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="auth-popup-title">
+      <div className="popup-container" onClick={(e) => e.stopPropagation()} ref={popupRef}>
+        <button 
+          className="close-btn" 
+          onClick={onClose}
+          aria-label="Close authentication popup"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onClose();
+            }
+          }}
+        >
           &times;
         </button>
 
         {/* Tabs */}
-        <div className="auth-tabs">
+        <div className="auth-tabs" role="tablist">
           <button
             className={`tab-btn ${activeTab === "login" ? "active" : ""}`}
             onClick={() => setActiveTab("login")}
+            role="tab"
+            aria-selected={activeTab === "login"}
+            aria-controls="login-panel"
+            id="login-tab"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setActiveTab("login");
+              }
+            }}
           >
             Login
           </button>
           <button
             className={`tab-btn ${activeTab === "signup" ? "active" : ""}`}
             onClick={() => setActiveTab("signup")}
+            role="tab"
+            aria-selected={activeTab === "signup"}
+            aria-controls="signup-panel"
+            id="signup-tab"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setActiveTab("signup");
+              }
+            }}
           >
             Sign Up
           </button>
@@ -584,8 +667,8 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
 
         {/* Login Form */}
         {activeTab === "login" && (
-          <form onSubmit={otpSent ? verifyLoginOTP : sendLoginOTP} className="auth-form">
-            <h2>Welcome Back</h2>
+          <form onSubmit={otpSent ? verifyLoginOTP : sendLoginOTP} className="auth-form" role="tabpanel" id="login-panel" aria-labelledby="login-tab">
+            <h2 id="auth-popup-title">Welcome Back</h2>
 
             {!otpSent ? (
               <>
@@ -638,6 +721,12 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
                   onClick={resetOtpStep}
                   disabled={isLoading}
                   style={{ marginTop: "10px", display: "block", width: "100%" }}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === " ") && !isLoading) {
+                      e.preventDefault();
+                      resetOtpStep();
+                    }
+                  }}
                 >
                   Change Phone Number
                 </button>
@@ -653,6 +742,13 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
                   resetOtpStep();
                   setActiveTab("signup");
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    resetOtpStep();
+                    setActiveTab("signup");
+                  }
+                }}
               >
                 Sign Up
               </button>
@@ -662,8 +758,8 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
 
         {/* Signup Form */}
         {activeTab === "signup" && (
-          <form onSubmit={otpSent ? verifySignupOTP : sendSignupOTP} className="auth-form">
-            <h2>Create an Account</h2>
+          <form onSubmit={otpSent ? verifySignupOTP : sendSignupOTP} className="auth-form" role="tabpanel" id="signup-panel" aria-labelledby="signup-tab">
+            <h2 id="auth-popup-title">Create an Account</h2>
 
             {!otpSent ? (
               <>
@@ -786,6 +882,12 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
                   onClick={resetOtpStep}
                   disabled={isLoading}
                   style={{ marginTop: "10px", display: "block", width: "100%" }}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter" || e.key === " ") && !isLoading) {
+                      e.preventDefault();
+                      resetOtpStep();
+                    }
+                  }}
                 >
                   Change Phone Number
                 </button>
@@ -800,6 +902,13 @@ const AuthPopup = ({ isOpen, onClose, onVerifySuccess }) => {
                 onClick={() => {
                   resetOtpStep();
                   setActiveTab("login");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    resetOtpStep();
+                    setActiveTab("login");
+                  }
                 }}
               >
                 Login

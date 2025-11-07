@@ -282,7 +282,7 @@ const Navbar = () => {
     navigate("/"); // Redirect to home page after verification
   };
 
-  // Click-away functionality
+  // Click-away functionality and keyboard navigation
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Handle desktop dropdown click-away
@@ -304,14 +304,30 @@ const Navbar = () => {
       }
     };
 
-    // Add event listener
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape") {
+        if (desktopServicesDropdownOpen) {
+          setDesktopServicesDropdownOpen(false);
+        }
+        if (mobileServicesDropdownOpen) {
+          setMobileServicesDropdownOpen(false);
+        }
+        if (menuOpen) {
+          setMenuOpen(false);
+        }
+      }
+    };
+
+    // Add event listeners
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKey);
 
     // Cleanup
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [desktopServicesDropdownOpen, mobileServicesDropdownOpen]);
+  }, [desktopServicesDropdownOpen, mobileServicesDropdownOpen, menuOpen]);
 
   return (
     <nav className="navbar">
@@ -322,11 +338,22 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="mobile-menu-toggle" onClick={toggleMenu}>
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={toggleMenu}
+          aria-label="Toggle mobile menu"
+          aria-expanded={menuOpen}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleMenu();
+            }
+          }}
+        >
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
 
         <div className="navbar-menu">
           <Link to="/" className={location.pathname === "/" ? "active" : ""}>
@@ -342,6 +369,16 @@ const Navbar = () => {
                 e.preventDefault();
                 toggleDesktopServicesDropdown();
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  toggleDesktopServicesDropdown();
+                } else if (e.key === "Escape" && desktopServicesDropdownOpen) {
+                  setDesktopServicesDropdownOpen(false);
+                }
+              }}
+              aria-expanded={desktopServicesDropdownOpen}
+              aria-haspopup="true"
             >
               Services <span className="dropdown-arrow">▼</span>
             </Link>
@@ -418,9 +455,19 @@ const Navbar = () => {
         </Link>
         {/* Services in mobile menu */}
         <div className="mobile-dropdown" ref={mobileDropdownRef}>
-          <div
+          <button
             className="mobile-dropdown-title"
             onClick={toggleMobileServicesDropdown}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleMobileServicesDropdown();
+              } else if (e.key === "Escape" && mobileServicesDropdownOpen) {
+                setMobileServicesDropdownOpen(false);
+              }
+            }}
+            aria-expanded={mobileServicesDropdownOpen}
+            aria-haspopup="true"
           >
             Services{" "}
             <span
@@ -430,7 +477,7 @@ const Navbar = () => {
             >
               ▼
             </span>
-          </div>
+          </button>
           {mobileServicesDropdownOpen && (
             <div className="mobile-dropdown-content">
               {loading ? (
@@ -483,28 +530,48 @@ const Navbar = () => {
                 Welcome, {user?.name || "User"}
               </span>
             </div>
-            <a
-              href="#"
+            <button
+              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 handleLogout();
                 setMenuOpen(false);
               }}
+              style={{ 
+                background: "none", 
+                border: "none", 
+                color: "inherit", 
+                font: "inherit", 
+                cursor: "pointer",
+                padding: "10px 0",
+                width: "100%",
+                textAlign: "left"
+              }}
             >
               Logout
-            </a>
+            </button>
           </>
         ) : (
-          <a
-            href="#"
+          <button
+            type="button"
             onClick={(e) => {
               e.preventDefault();
               setPopupOpen(true);
               setMenuOpen(false);
             }}
+            style={{ 
+              background: "none", 
+              border: "none", 
+              color: "inherit", 
+              font: "inherit", 
+              cursor: "pointer",
+              padding: "10px 0",
+              width: "100%",
+              textAlign: "left"
+            }}
           >
             Login / Sign Up
-          </a>
+          </button>
         )}
       </div>
 
