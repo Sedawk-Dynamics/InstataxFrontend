@@ -183,6 +183,20 @@
 .footer-copyright p {
   margin: 0;
   font-weight: bold;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.copyright-text {
+  display: inline-block;
+}
+
+.footer-links-text {
+  display: inline-block;
+}
+
+.copyright-break {
+  display: block;
 }
 
 .privacy-link {
@@ -295,6 +309,13 @@
     align-items: center;
     gap: 10px;
     text-align: center;
+    width: 100%;
+    padding: 0 10px;
+  }
+  
+  .footer-copyright p {
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 @media (max-width: 768px) {
@@ -315,6 +336,12 @@
     margin-left: 0;
     justify-content: center;
     width: 100%;
+    padding: 0 15px;
+  }
+  
+  .footer-copyright p {
+    font-size: 12px;
+    line-height: 1.6;
   }
 }
 
@@ -332,13 +359,38 @@
 
   .footer-copyright {
     font-size: 11px; /* Make text slightly smaller */
-    line-height: 1.4; /* Reduce line spacing */
+    line-height: 1.5; /* Reduce line spacing */
     text-align: center;
     width: 100%;
+    padding: 0 10px;
   }
 
   .footer-copyright p {
     margin: 0; /* Remove extra margin */
+    font-size: 11px;
+    line-height: 1.6;
+    word-break: break-word;
+  }
+  
+  .footer-copyright p br {
+    display: block;
+    content: "";
+    margin-top: 4px;
+  }
+  
+  .footer-links-text {
+    display: block;
+    margin-top: 4px;
+  }
+  
+  @media (max-width: 360px) {
+    .footer-copyright p {
+      font-size: 10px;
+    }
+    
+    .footer-links-text {
+      font-size: 10px;
+    }
   }
 
   /* Keep Company and Content side by side on small phones */

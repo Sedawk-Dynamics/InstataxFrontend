@@ -106,13 +106,12 @@ const Footer = () => {
 
           <div className="footer-copyright">
             <p>
-              © {new Date().getFullYear()} InstaTax.ai. All Rights Reserved.
-              <br />
-              Privacy | Refund
+              <span className="copyright-text">
+                © {new Date().getFullYear()} InstaTax.ai. All Rights Reserved.
+              </span>
+              <br className="copyright-break" />
+              <span className="footer-links-text">Privacy | Refund</span>
             </p>
-            {/* <a href="#" className="privacy-link">
-              Privacy
-            </a> */}
           </div>
         </div>
       </div>
