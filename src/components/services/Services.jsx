@@ -54,6 +54,18 @@ const Services = () => {
   // Use fallback data if API fails
   const displayCategories = categories.length > 0 ? categories : (error ? fallbackCategories : []);
 
+  // Array of alternating colors for icons
+  const iconColors = [
+    '#ffd5d5', 
+    '#d6f3ff', 
+    '#ffe9bf', 
+    '#e8d5ff', 
+    '#d6f3ff', 
+    '#ffd5d5', 
+    '#e8d5ff', 
+    '#ffe9bf', 
+  ];
+
   return (
     <section className="services">
       <div className="services-container">
@@ -73,9 +85,12 @@ const Services = () => {
             <div className="service-categories">
               {loading && <p>Loading services...</p>}
               
-              {displayCategories.map((category) => (
+              {displayCategories.map((category, index) => (
                 <div className="service-category" key={category.id}>
-                  <div className={`category-icon ${category.slug}-icon`}>
+                  <div 
+                    className="category-icon" 
+                    style={{ backgroundColor: iconColors[index % iconColors.length] }}
+                  >
                     {/* If API fails, use emoji fallbacks */}
                     {!error && category.icon ? (
                       <img 
