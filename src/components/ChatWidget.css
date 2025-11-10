@@ -508,6 +508,17 @@
 }
 
 /* Responsive styles */
+/* Tablet screens - increase bottom spacing for privacy policy visibility */
+@media (min-width: 481px) and (max-width: 992px) {
+  .chat-widget {
+    bottom: 200px;
+  }
+  
+  .chat-box {
+    bottom: 290px;
+  }
+}
+
 @media (max-width: 480px) {
   .chat-box {
     width: calc(100% - 40px);
