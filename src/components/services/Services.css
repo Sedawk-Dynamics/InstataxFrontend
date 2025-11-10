@@ -72,6 +72,8 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 0.95rem;
+  text-decoration: none;
+  color: inherit;
 }
 
 .service-category:hover {

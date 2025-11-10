@@ -1,5 +1,6 @@
 // src/components/Services.jsx
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Services.css";
 import serviceImage from "../../assets/Services11.png";
 import axios from "axios";
@@ -86,7 +87,11 @@ const Services = () => {
               {loading && <p>Loading services...</p>}
               
               {displayCategories.map((category, index) => (
-                <div className="service-category" key={category.id}>
+                <Link
+                  to={`/services/${category.slug || category.documentId || category.id}`}
+                  className="service-category"
+                  key={category.id}
+                >
                   <div 
                     className="category-icon" 
                     style={{ backgroundColor: iconColors[index % iconColors.length] }}
@@ -103,7 +108,7 @@ const Services = () => {
                     )}
                   </div>
                   <span>{category.name}</span>
-                </div>
+                </Link>
               ))}
               
               {error && (
