@@ -29,7 +29,7 @@
 }
 /* New company/resources column */
 .footer-company,
-.footer-link-container {
+.footer-links-container {
   flex: 1;
   text-align: right;
   min-width: 260px;
@@ -221,7 +221,7 @@
 
   /* Allow columns to shrink fully on narrow screens */
   .footer-company,
-  .footer-link-container,
+  .footer-links-container,
   .footer-info {
     min-width: 0;
     width: 100%;
@@ -265,24 +265,51 @@
     max-width: 50%;
   }
 
-  /* Center align links */
+  /* Center the links container, but left-align items inside */
   .footer-links {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
     gap: 8px;
+    width: fit-content;
+  }
+
+  /* Ensure both footer link sections have identical styling */
+  .footer-company .footer-links,
+  .footer-links-container .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0 auto;
+    gap: 8px;
+    width: fit-content;
   }
 
   .footer-link {
-    text-align: center;
-    justify-content: center;
+    text-align: left;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  /* Ensure all footer links have identical styling */
+  .footer-company .footer-link,
+  .footer-links-container .footer-link {
+    text-align: left;
+    justify-content: flex-start;
     margin-bottom: 10px;
   }
 
   .footer-link::after {
     margin-left: 5px; /* Adjust spacing */
+  }
+
+  /* Ensure all footer link arrows have identical styling */
+  .footer-company .footer-link::after,
+  .footer-links-container .footer-link::after {
+    margin-left: 5px;
   }
 
   .social-icons {
@@ -404,5 +431,29 @@
   .footer-links-container {
     flex: 1;
     min-width: 0;
+  }
+
+  /* Ensure both footer link sections have identical styling on small screens */
+  .footer-company .footer-links,
+  .footer-links-container .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0 auto;
+    gap: 8px;
+    width: fit-content;
+  }
+
+  .footer-company .footer-link,
+  .footer-links-container .footer-link {
+    text-align: left;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .footer-company .footer-link::after,
+  .footer-links-container .footer-link::after {
+    margin-left: 5px;
   }
 }

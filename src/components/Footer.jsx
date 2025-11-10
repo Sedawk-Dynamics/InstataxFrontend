@@ -49,22 +49,6 @@ const Footer = () => {
 
           <div className="footer-content">
             <div className="footer-company">
-              <h3>Company</h3>
-              <ul className="footer-links">
-                <li>
-                  <Link to="/disclaimer" className="footer-link">
-                    Disclaimer
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact-us" className="footer-link">
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-links-container">
               <h3>Content</h3>
               <ul className="footer-links">
                 <li>
@@ -79,7 +63,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link to="/blogs" className="footer-link">
-                    Blogs
+                    Blog
                   </Link>
                 </li>
                 <li>
@@ -90,6 +74,22 @@ const Footer = () => {
                 <li>
                   <Link to="/payment" className="footer-link">
                     Payment
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="footer-links-container">
+              <h3>Company</h3>
+              <ul className="footer-links">
+                <li>
+                  <Link to="/disclaimer" className="footer-link">
+                    Disclaimer
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact-us" className="footer-link">
+                    Contact Us
                   </Link>
                 </li>
               </ul>
