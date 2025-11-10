@@ -3,6 +3,7 @@
   background-color: #673DE6;
   padding: 60px 0;
   color: white;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .about-container {
@@ -14,18 +15,30 @@
   gap: 40px;
 }
 
+.about-content {
+  flex: 1;
+  min-width: 0; /* Allow flex item to shrink below content size */
+}
+
 .about-content h2 {
   font-size: 30px;
-  font-weight: 600;       /* Slightly lighter weight */
-  line-height: 1.1;       /* Adds airy spacing between lines */
+  font-weight: 600;
+  line-height: 1.5;
   color: white;
   text-align: left;
-  width: 110%;            /* Let it take full width of its column */
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto; /* Better word breaking */
 }
+
 .about-illustration {
   flex: 1;
   display: flex;
   justify-content: center;
+  min-width: 0; /* Allow flex item to shrink */
 }
 
 .about-illustration img {
@@ -33,29 +46,65 @@
   height: auto;
 }
 
-.about-content {
-  flex: 1;
-}
-
-
-
 @media (max-width: 992px) {
   .about-container {
     flex-direction: column;
+    gap: 30px;
   }
 
   .about-illustration {
-    margin-bottom: 30px;
+    margin-bottom: 0;
   }
 
   .about-content h2 {
-    font-size: 28px;
+    font-size: 26px;
     text-align: center;
+    line-height: 1.6;
   }
 }
 
 @media (max-width: 768px) {
+  .about-us {
+    padding: 50px 0;
+  }
+
+  .about-container {
+    padding: 0 20px;
+    gap: 25px;
+  }
+
   .about-content h2 {
-    font-size: 24px;
+    font-size: 22px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us {
+    padding: 40px 0;
+  }
+
+  .about-container {
+    padding: 0 15px;
+  }
+
+  .about-content h2 {
+    font-size: 20px;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-us {
+    padding: 35px 0;
+  }
+
+  .about-container {
+    padding: 0 12px;
+  }
+
+  .about-content h2 {
+    font-size: 18px;
+    line-height: 1.7;
   }
 }

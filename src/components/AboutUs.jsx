@@ -13,11 +13,8 @@ const AboutUs = () => {
 
         <div className="about-content">
           <h2>
-  InstaTax.ai supports busy Entrepreneurs <br />
-  to handle their messy Startup Legalities <br />
-  and Tax filings so that they worry less <br />
-  and focus more on their dream business.
-</h2>
+            InstaTax.ai supports busy Entrepreneurs to handle their messy Startup Legalities and Tax filings so that they worry less and focus more on their dream business.
+          </h2>
         </div>
       </div>
     </section>
