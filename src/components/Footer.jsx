@@ -80,11 +80,31 @@ const Footer = () => {
             </div>
 
             <div className="footer-links-container">
-              <h3>Company</h3>
+              <h3>Company‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎  </h3>
               <ul className="footer-links">
+                <li>
+                  <Link to="/terms-and-conditions" className="footer-link">
+                    Terms and Conditions
+                  </Link>
+                </li>
                 <li>
                   <Link to="/disclaimer" className="footer-link">
                     Disclaimer
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacy-policy" className="footer-link">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/refund-policy" className="footer-link">
+                    Refund Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/careers" className="footer-link">
+                    Careers
                   </Link>
                 </li>
                 <li>
@@ -110,7 +130,9 @@ const Footer = () => {
                 © {new Date().getFullYear()} InstaTax.ai. All Rights Reserved.
               </span>
               <br className="copyright-break" />
-              <span className="footer-links-text">Privacy | Refund</span>
+              <span className="footer-links-text">
+                <Link to="/privacy-policy" style={{ color: "inherit", textDecoration: "none" }}>Privacy</Link> | <Link to="/refund-policy" style={{ color: "inherit", textDecoration: "none" }}>Refund</Link>
+              </span>
             </p>
           </div>
         </div>

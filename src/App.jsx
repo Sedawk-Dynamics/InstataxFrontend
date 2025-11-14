@@ -14,6 +14,10 @@ import Services from "./pages/Services";
 import Payment from "./pages/Payment";
 import Contact from "./pages/Contact";
 import Disclaimer from "./pages/Disclaimer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RefundPolicy from "./pages/RefundPolicy";
+import Careers from "./pages/Careers";
 
 import ServiceQuoteHome from "../src/components/services/ServiceQuoteHome";
 
@@ -46,6 +50,10 @@ function App() {
               <Route path="/payment" element={<Payment />} />
               <Route path="/contact-us" element={<Contact />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/refund-policy" element={<RefundPolicy />} />
+              <Route path="/careers" element={<Careers />} />
             </Routes>
           </main>
           <Footer />
