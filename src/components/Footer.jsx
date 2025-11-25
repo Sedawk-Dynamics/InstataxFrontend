@@ -27,6 +27,9 @@ const Footer = () => {
               and seamless execution, so you can focus on what matters— growing
               your startup.
             </p>
+            <p>
+            © {new Date().getFullYear()} TSMTX Solutions Private Limited.
+            </p>
 
             <div className="social-icons">
               <a href="https://www.facebook.com/InstaTaxai" aria-label="Facebook" target="_blank" rel="noreferrer noopener">
@@ -127,7 +130,7 @@ const Footer = () => {
           <div className="footer-copyright">
             <p>
               <span className="copyright-text">
-                © {new Date().getFullYear()} InstaTax.ai. All Rights Reserved.
+                © {new Date().getFullYear()} TSMTX Solutions Private Limited. All Rights Reserved.
               </span>
               <br className="copyright-break" />
               <span className="footer-links-text">
