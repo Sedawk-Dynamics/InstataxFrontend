@@ -83,7 +83,7 @@ const Footer = () => {
             </div>
 
             <div className="footer-links-container">
-              <h3>Company‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎  </h3>
+              <h3>Company‎ ‎ ‎ ‎ ‎ ‎</h3>
               <ul className="footer-links">
                 <li>
                   <Link to="/terms-and-conditions" className="footer-link">
